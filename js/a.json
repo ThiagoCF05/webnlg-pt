@@ -1,0 +1,22 @@
+{
+  "translation_id": 0,
+  "participant_id": 0,
+  "original": "Gus Poyet is in the Real Zaragoza club and previously played for Chelsea FC.",
+  "rewriting": "Gus Poyet está no Real Zaragoza e já jogou pelo Chelsea FC.",
+  "pos_editings": [
+    { "idx": 0, "name": "Gus", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 1, "name": "Poyet", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 2, "name": "está", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 3, "name": "no", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 4, "name": "Real", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 5, "name": "Zaragoza", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 6, "name": "e", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 7, "name": "já", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 8, "name": "jogou", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 9, "name": "pelo", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 10, "name": "Chelsea", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 11, "name": "FC", "action":null, "updated_name": null, "updated_at": null },
+    { "idx": 12, "name": ".", "action":null, "updated_name": null, "updated_at": null }
+  ],
+  "created_at": 0
+}

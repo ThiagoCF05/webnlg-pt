@@ -1,0 +1,6 @@
+# Starting MySQL
+mysql.server start
+
+# Logging in
+mysql -uroot
+
