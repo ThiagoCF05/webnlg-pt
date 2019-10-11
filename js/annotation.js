@@ -39,6 +39,9 @@ $(document).ready(function(){
       $("#original_text").empty();
       $("#original_text").append(results.original);
 
+      var user_text = $('#user').text().split(' / ')[0] + ' / Anotação ' + results.finished_trials.toString() ;
+      $('#user').text(user_text);
+
       results.pos_editings = Array();
       results.translation.split(' ').forEach(function (word, index){
         results.pos_editings.push({
@@ -87,6 +90,9 @@ $(document).ready(function(){
         $("#original_text").empty();
         $("#original_text").append(results.original);
 
+        var user_text = $('#user').text().split(' / ')[0] + ' / Anotação ' + results.finished_trials.toString() ;
+        $('#user').text(user_text);
+
         results.pos_editings = Array();
         results.translation.split(' ').forEach(function (word, index){
           results.pos_editings.push({
@@ -115,6 +121,11 @@ $(document).ready(function(){
         });
         
         $("#rewriting-env").val(results.rewriting);
+
+        results.isPosedited = 1;
+        results.isRewritten = 0;
+        $("#pos-edition-env").css("display", "block");
+        $("#rewriting-env").css("display", "none");
       },
       dataType: "json"
     });
@@ -122,11 +133,15 @@ $(document).ready(function(){
 
   // POS-EDITING X REWRITING EVENTS
   $("#pos-edition").click(function (){
+    results.isPosedited = 1;
+    results.isRewritten = 0;
     $("#pos-edition-env").css("display", "block");
     $("#rewriting-env").css("display", "none");
   });
 
   $("#rewriting").click(function (){
+    results.isPosedited = 0;
+    results.isRewritten = 1;
     $("#pos-edition-env").css("display", "none");
     $("#rewriting-env").css("display", "block");
   });

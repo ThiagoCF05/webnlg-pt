@@ -36,7 +36,7 @@
 <?php echo "<input id=\"participant_id\" type=\"hidden\" value=\"{$_SESSION['participant_id']}\"/>"; ?>
 <header>
   <nav class="navbar navbar-light bg-light">
-    <span class="navbar-brand"><?php echo "{$_SESSION['email']}"; ?></span>
+    <span class="navbar-brand" id="user"><?php echo "{$_SESSION['email']}"; ?></span>
     <form class="form-inline" action="logout.php" method="get">
       <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sair</button>
     </form>

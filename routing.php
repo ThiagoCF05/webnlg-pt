@@ -54,13 +54,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $translation_id = mysqli_real_escape_string($conn, htmlspecialchars(stripslashes(trim($_POST["translation_id"]))));
     $participant_id = mysqli_real_escape_string($conn, htmlspecialchars(stripslashes(trim($_POST["participant_id"]))));
     $rewriting_text = mysqli_real_escape_string($conn, htmlspecialchars(stripslashes(trim($_POST["rewriting"]))));
+    $isRewritten = mysqli_real_escape_string($conn, $_POST["isRewritten"]);
+    $isPosedited = mysqli_real_escape_string($conn, $_POST["isPosedited"]);
     $created_at = mysqli_real_escape_string($conn, $_POST["created_at"]);
 
-    $sql = "INSERT INTO Rewriting (`translation_id`, `user_id`, `text`, `created_at`) 
-            VALUES ('$translation_id', '$participant_id', '$rewriting_text', '$created_at');";
+    $sql = "INSERT INTO Rewriting (`translation_id`, `user_id`, `text`, `isRewritten`, `created_at`) 
+            VALUES ('$translation_id', '$participant_id', '$rewriting_text', '$isRewritten', '$created_at');";
     $result = $conn->query($sql) or die($conn->error);
 
     $pos_editings = $_POST['pos_editings'];
+    $posedition = "";
     $word_idx = 1;
     foreach ($pos_editings as $pos_editing) {
         $word = mysqli_real_escape_string($conn, $pos_editing['word']);
@@ -68,14 +71,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updated_word = mysqli_real_escape_string($conn, $pos_editing['updated_word']);
         $updated_at = mysqli_real_escape_string($conn, $pos_editing['updated_at']);
         if (strcmp($updated_at,"") == 0){
-            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', NULL); ";
+            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', NULL); ";
         } else {
-            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$updated_at'); ";
+            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', '$updated_at'); ";
         }
         
         $result = $conn->query($sql) or die($conn->error);
         $word_idx = $word_idx + 1;
+
+        # linearize the posteditions
+        if (strcmp($action, "original") == 0 or strcmp($action, "added") == 0){
+            $posedition = $posedition . " " . $word;
+        } elseif (strcmp($action, "updated") == 0) {
+            $posedition = $posedition . " " . $updated_word;
+        }
     }
+
+    $posedition = trim($posedition);
+    $sql = "INSERT INTO LinearPosEditing (`translation_id`, `user_id`, `text`, `isPosEdited`, `created_at`) 
+            VALUES ('$translation_id', '$participant_id', '$posedition', '$isPosedited', '$created_at');";
+    $result = $conn->query($sql) or die($conn->error);
     $conn->close();
 }
 
@@ -93,7 +108,7 @@ $finished_trials = get_finished_trials($participant_id);
 $result = [
     "translation_id" => $translation_id, "participant_id" => $participant_id,
     "original" => $original_text, "rewriting" => $translation, "translation" => $tokenized_translation, 
-    "finished_trials" => $finished_trials
+    "finished_trials" => $finished_trials, "isPosedited" => 1, "isRewritten" => 0
 ];
 header('Content-type: application/json');
 echo json_encode($result);

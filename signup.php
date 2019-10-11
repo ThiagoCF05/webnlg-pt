@@ -205,6 +205,19 @@
               </select>
             </div>
           </div>
+          <div class="form-group row">
+            <label class="col-md-3 control-label">Nível de Escolaridade Alcançado</label>
+            <div class="col-md-3">
+              <select class="form-control" name="educational_level">
+                <option value="elementary">Fundamental</option>
+                <option value="high_school">Colegial</option>
+                <option value="graduate">Graduação</option>
+                <option value="master">Mestrado</option>
+                <option value="doctorate">Doutorado</option>
+                <option value="postdoctoral">Pós-Doutorado</option>
+              </select>
+            </div>
+          </div>
           <button type="submit" class="btn btn-primary">Eu concordo</button>
         </form>
       </section>
