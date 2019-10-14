@@ -26,6 +26,8 @@ window.onload = function () {
 
 $(document).ready(function(){
   var results;
+  $("#button").css("display", "none");
+  $("#loading").css("display", "inline-block");
 
   $.ajax({
     url: "http://localhost:8080/felipe/routing.php",
@@ -71,12 +73,19 @@ $(document).ready(function(){
 
       $("#rewriting-env").empty();
       $("#rewriting-env").text(results.rewriting);
+
+      $("#button").css("display", "inline-block");
+      $("#loading").css("display", "none");
     },
     dataType: "json"
   });
 
   $("#button").click(function (e){
     e.preventDefault();
+
+    $("#button").css("display", "none");
+    $("#loading").css("display", "inline-block");
+
     $.ajax({
       url: "http://localhost:8080/felipe/routing.php",
       type: "POST",
@@ -126,6 +135,9 @@ $(document).ready(function(){
         results.isRewritten = 0;
         $("#pos-edition-env").css("display", "block");
         $("#rewriting-env").css("display", "none");
+
+        $("#button").css("display", "inline-block");
+        $("#loading").css("display", "none");
       },
       dataType: "json"
     });
