@@ -37,3 +37,7 @@
 .dropdown:hover .dropdown-content {display: block;}
 
 .dropdown:hover .dropbtn {background-color: yellow;}
+
+@media screen and (max-width: 768px) {
+  .form-mode-select {display:none;}
+}

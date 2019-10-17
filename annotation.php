@@ -3,6 +3,7 @@
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <head>
 <meta charset="utf-8"/>
 <link rel="icon" href="img/logo.png">
@@ -46,15 +47,15 @@
 <div class="container">
   <div class="text-center">
     <form>
-      <div class="form-group">
+      <div class="form-mode-select">
         <label><strong>Edition Mode:</strong></label>
         <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
         <div class="radio">
-          <label class="radio-inline" style="margin-left:0.5cm">
-            <input type="radio" name="fluency" id="pos-edition" value="1" checked> Pos-Edition
+          <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
+            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Pos-Edition
           </label>
           <label class="radio-inline" style="margin-left:0.5cm">
-            <input type="radio" name="fluency" id="rewriting" value="2"> Rewriting
+            <input type="radio" name="fluency" id="rewriting" value="2" checked> Rewriting
           </label>
         </div>
       </div>
@@ -67,8 +68,8 @@
   <br>
   <div class="text-justify">
     <h5 class="text-center">Automatic Translation</h5>
-    <p style="font-size:30px;display:block" id="pos-edition-env">Translation</p>
-    <textarea style="font-size:30px;display:none" cols="60" id="rewriting-env"></textarea>
+    <p style="font-size:30px;display:none" id="pos-edition-env">Translation</p>
+    <textarea style="font-size:30px;display:block;width:100%;" id="rewriting-env"></textarea>
   </div>
   <br/>
   <div class="text-center">

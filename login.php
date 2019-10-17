@@ -1,11 +1,13 @@
+<!DOCTYPE html>
 <html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <body>
     <?php 
         session_start();
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "translation";
+        $servername = "mysql.dcc.ufmg.br";
+        $username = "felipealco";
+        $password = "Queiph0a";
+        $dbname = "felipealco";
 
         $conn = new mysqli($servername, $username, $password, $dbname);
         // Check connection

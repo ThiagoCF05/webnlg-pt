@@ -28,7 +28,7 @@ $(document).ready(function(){
   var results;
 
   $.ajax({
-    url: "http://localhost:8080/felipe/routing.php",
+    url: "../webnlg-pt/routing.php",
     type: "GET",
     data: {},
     error: function (jqXHR, exception) {
@@ -71,6 +71,8 @@ $(document).ready(function(){
 
       $("#rewriting-env").empty();
       $("#rewriting-env").text(results.rewriting);
+	  var h = document.getElementById("rewriting-env").scrollHeight;
+	  $("#rewriting-env").css("height", h + "px");
     },
     dataType: "json"
   });
@@ -78,7 +80,7 @@ $(document).ready(function(){
   $("#button").click(function (e){
     e.preventDefault();
     $.ajax({
-      url: "http://localhost:8080/felipe/routing.php",
+      url: "../webnlg-pt/routing.php",
       type: "POST",
       data: results,
       error: function (jqXHR, exception) {
@@ -122,10 +124,10 @@ $(document).ready(function(){
         
         $("#rewriting-env").val(results.rewriting);
 
-        results.isPosedited = 1;
-        results.isRewritten = 0;
-        $("#pos-edition-env").css("display", "block");
-        $("#rewriting-env").css("display", "none");
+        results.isPosedited = 0;
+        results.isRewritten = 1;
+        $("#pos-edition-env").css("display", "none");
+        $("#rewriting-env").css("display", "block");
       },
       dataType: "json"
     });
@@ -273,3 +275,5 @@ $(document).ready(function(){
 
   });
 });
+
+
