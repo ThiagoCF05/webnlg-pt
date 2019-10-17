@@ -65,7 +65,7 @@
   <div class="text-justify">
     <h5 class="text-center">Automatic Translation</h5>
     <p style="font-size:30px;display:none" id="pos-edition-env">Translation</p>
-    <textarea style="font-size:30px;display:block;width:100%;" id="rewriting-env"></textarea>
+    <textarea style="font-size:30px;display:block;width:100%;resize:none;" id="rewriting-env"></textarea>
   </div>
   <br/>
   <div class="text-center">

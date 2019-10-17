@@ -30,7 +30,7 @@ $(document).ready(function(){
   $("#loading").css("display", "inline-block");
 
   $.ajax({
-    url: "../webnlg-pt/routing.php",
+    url: "https://homepages.dcc.ufmg.br/~felipealco/webnlg-pt/routing.php",
     type: "GET",
     data: {},
     error: function (jqXHR, exception) {
@@ -71,8 +71,14 @@ $(document).ready(function(){
         $("#pos-edition-env").append(elem);
       });
 
-	  var h = document.getElementById("rewriting-env").scrollHeight;
-	  $("#rewriting-env").css("height", h + "px");
+	  $("#rewriting-env").empty();
+      $("#rewriting-env").text(results.rewriting);
+	  var h = document.getElementById("rewriting-env").scrollHeight + 6;
+	  //alert($("#rewriting-env").rows);
+	  //autosize(document.getElementById("rewriting-env"));
+
+	  //$("#rewriting-env").style.height(h + "px");
+      $("#rewriting-env").css("height", h + "px");
       $("#button").css("display", "inline-block");
       $("#loading").css("display", "none");
     },
@@ -86,7 +92,7 @@ $(document).ready(function(){
     $("#loading").css("display", "inline-block");
 
     $.ajax({
-      url: "../webnlg-pt/routing.php",
+      url: "https://homepages.dcc.ufmg.br/~felipealco/webnlg-pt/routing.php",
       type: "POST",
       data: results,
       error: function (jqXHR, exception) {
