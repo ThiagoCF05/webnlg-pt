@@ -26,6 +26,8 @@ window.onload = function () {
 
 $(document).ready(function(){
   var results;
+  $("#button").css("display", "none");
+  $("#loading").css("display", "inline-block");
 
   $.ajax({
     url: "../webnlg-pt/routing.php",
@@ -69,16 +71,20 @@ $(document).ready(function(){
         $("#pos-edition-env").append(elem);
       });
 
-      $("#rewriting-env").empty();
-      $("#rewriting-env").text(results.rewriting);
 	  var h = document.getElementById("rewriting-env").scrollHeight;
 	  $("#rewriting-env").css("height", h + "px");
+      $("#button").css("display", "inline-block");
+      $("#loading").css("display", "none");
     },
     dataType: "json"
   });
 
   $("#button").click(function (e){
     e.preventDefault();
+
+    $("#button").css("display", "none");
+    $("#loading").css("display", "inline-block");
+
     $.ajax({
       url: "../webnlg-pt/routing.php",
       type: "POST",
@@ -124,10 +130,13 @@ $(document).ready(function(){
         
         $("#rewriting-env").val(results.rewriting);
 
-        results.isPosedited = 0;
-        results.isRewritten = 1;
-        $("#pos-edition-env").css("display", "none");
-        $("#rewriting-env").css("display", "block");
+        results.isPosedited = 1;
+        results.isRewritten = 0;
+        $("#pos-edition-env").css("display", "block");
+        $("#rewriting-env").css("display", "none");
+
+        $("#button").css("display", "inline-block");
+        $("#loading").css("display", "none");
       },
       dataType: "json"
     });
