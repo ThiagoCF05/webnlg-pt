@@ -12,26 +12,31 @@ function connect(){
     }
     return $conn;
 }
-
 function get_trial(){
-    $conn = connect();
+   $conn = connect();
     
-    $sql = "SELECT `lex`.`id` AS lex_id, `trans`.`id` AS translation_id, 
+   $sql = "SELECT `lex`.`id` AS lex_id, `trans`.`id` AS translation_id, 
                    `lex`.`text` AS original_text, 
                    `trans`.`text` AS translation, 
                    `trans`.`tokenized_text` AS tokenized_translation,
-                   COUNT(`rewriting`.`translation_id`) AS counting 
-            FROM Lex AS `lex` INNER JOIN Translation AS `trans` ON `lex`.`id` = `trans`.`lex_id`
-            LEFT JOIN Rewriting AS `rewriting` ON `trans`.`id` = `rewriting`.`translation_id`
-            GROUP BY lex_id, translation_id
-            ORDER BY counting;";
+                   `trans`.`counting` AS counting 
+            FROM Lex AS `lex` 
+            INNER JOIN 
+            ( 
+              SELECT `trans`.*
+              FROM Translation AS `trans`
+	      LEFT JOIN Rewriting AS `rewriting` ON `trans`.`id` = `rewriting`.`translation_id`
+              WHERE ((`counting` = 1 OR `counting` = 0) AND (`rewriting`.`user_id` != {$_SESSION['participant_id']} OR `rewriting`.`user_id` IS NULL))
+              ORDER BY rand()
+              LIMIT 1
+            ) AS `trans`
+            ON `lex`.`id` = `trans`.`lex_id`;";
     $result = $conn->query($sql) or die($conn->error);
     $row = $result->fetch_assoc();
-    $conn->close();
 
+    $conn->close();
     return $row;
 }
-
 function get_finished_trials($participant_id){
     $conn = connect();
     
@@ -46,7 +51,6 @@ function get_finished_trials($participant_id){
     $conn->close();
     return $trials;
 }
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $conn = connect();
     // Change character set to utf8
@@ -57,11 +61,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $isRewritten = mysqli_real_escape_string($conn, $_POST["isRewritten"]);
     $isPosedited = mysqli_real_escape_string($conn, $_POST["isPosedited"]);
     $created_at = mysqli_real_escape_string($conn, $_POST["created_at"]);
-
     $sql = "INSERT INTO Rewriting (`translation_id`, `user_id`, `text`, `isRewritten`, `created_at`) 
             VALUES ('$translation_id', '$participant_id', '$rewriting_text', '$isRewritten', '$created_at');";
     $result = $conn->query($sql) or die($conn->error);
-
+    $sql = "UPDATE Translation SET `counting` = `counting` + 1 WHERE `id` = '$translation_id';";
+    $result = $conn->query($sql) or die($conn->error);
     $pos_editings = $_POST['pos_editings'];
     $posedition = "";
     $word_idx = 1;
@@ -78,7 +82,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         $result = $conn->query($sql) or die($conn->error);
         $word_idx = $word_idx + 1;
-
         # linearize the posteditions
         if (strcmp($action, "original") == 0 or strcmp($action, "added") == 0){
             $posedition = $posedition . " " . $word;
@@ -86,14 +89,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $posedition = $posedition . " " . $updated_word;
         }
     }
-
     $posedition = trim($posedition);
     $sql = "INSERT INTO LinearPosEditing (`translation_id`, `user_id`, `text`, `isPosEdited`, `created_at`) 
             VALUES ('$translation_id', '$participant_id', '$posedition', '$isPosedited', '$created_at');";
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
 }
-
 session_start();
 $row = get_trial();
 $row = array_map('utf8_encode', $row);
@@ -104,7 +105,6 @@ $translation = $row['translation'];
 $tokenized_translation = $row['tokenized_translation'];
 $participant_id = $_SESSION["participant_id"];
 $finished_trials = get_finished_trials($participant_id);
-
 $result = [
     "translation_id" => $translation_id, "participant_id" => $participant_id,
     "original" => $original_text, "rewriting" => $translation, "translation" => $tokenized_translation, 

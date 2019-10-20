@@ -26,7 +26,7 @@ window.onload = function () {
 
 $(document).ready(function(){
   var results;
-  $("#button").css("display", "none");
+  $("#buttons").css("display", "none");
   $("#loading").css("display", "inline-block");
 
   $.ajax({
@@ -79,16 +79,16 @@ $(document).ready(function(){
 
 	  //$("#rewriting-env").style.height(h + "px");
       $("#rewriting-env").css("height", h + "px");
-      $("#button").css("display", "inline-block");
+      $("#buttons").css("display", "inline-block");
       $("#loading").css("display", "none");
     },
     dataType: "json"
   });
 
-  $("#button").click(function (e){
+  $("#submit").click(function (e){
     e.preventDefault();
 
-    $("#button").css("display", "none");
+    $("#buttons").css("display", "none");
     $("#loading").css("display", "inline-block");
 
     $.ajax({
@@ -136,12 +136,12 @@ $(document).ready(function(){
         
         $("#rewriting-env").val(results.rewriting);
 
-        results.isPosedited = 1;
-        results.isRewritten = 0;
-        $("#pos-edition-env").css("display", "block");
-        $("#rewriting-env").css("display", "none");
+        //results.isPosedited = 1;
+        //results.isRewritten = 0;
+        //$("#pos-edition-env").css("display", "block");
+        //$("#rewriting-env").css("display", "none");
 
-        $("#button").css("display", "inline-block");
+        $("#buttons").css("display", "inline-block");
         $("#loading").css("display", "none");
       },
       dataType: "json"

@@ -189,9 +189,9 @@
             <div class="col-md-1">
               <select class="form-control" name="age">
                 <?php
-									for ($x = 18; $x <= 80; $x++) {
-    									echo "<option value=\"$x\">$x</option>";
-                  }
+			for ($x = 18; $x <= 80; $x++) {
+    				echo "<option value=\"$x\">$x</option>";
+                  	}
                 ?>
               </select>
             </div>
@@ -200,9 +200,9 @@
             <label class="col-md-3 control-label">Nível de Inglês</label>
             <div class="col-md-3">
               <select class="form-control" name="english_proficiency_level">
-                <option value="native">Native</option>
-                <option value="fluent">Fluent</option>
-                <option value="basic">Basic</option>
+                <option value="basic">Básico</option>
+                <option value="intermediate">Intermediário</option>
+                <option value="advanced">Avançado</option>
               </select>
             </div>
           </div>
@@ -210,12 +210,16 @@
             <label class="col-md-3 control-label">Nível de Escolaridade Alcançado</label>
             <div class="col-md-3">
               <select class="form-control" name="educational_level">
-                <option value="elementary">Fundamental</option>
-                <option value="high_school">Colegial</option>
-                <option value="graduate">Graduação</option>
-                <option value="master">Mestrado</option>
+		<option value="elementary">Fundamental completo</option>
+                <option value="high_school_unfinished">Médio incompleto</option>
+		<option value="high_school">Médio completo</option>
+                <option value="graduate_ongoing">Superior em andamento</option>
+		<option value="graduate">Superior completo</option>
+		<option value="specialization">Especialização</option>
+                <option value="master_ongoing">Mestrado em andamento</option>
+		<option value="master">Mestrado</option>
+                <option value="doctorate_ongoing">Doutorado em andamento</option>
                 <option value="doctorate">Doutorado</option>
-                <option value="postdoctoral">Pós-Doutorado</option>
               </select>
             </div>
           </div>

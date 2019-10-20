@@ -302,6 +302,7 @@ CREATE TABLE `Translation` (
   `engine_id` int(11) NOT NULL,
   `text` varchar(200) NOT NULL,
   `tokenized_text` varchar(200) NOT NULL,
+  `counting` int(11) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

@@ -64,6 +64,7 @@
                 $_SESSION["participant_id"] = $participant_id;
                 $_SESSION["name"] = $name;
                 $_SESSION["email"] = $email;
+                $_SESSION["current"] = 0;
                 header("Location: annotation.php");
                 die();
             }

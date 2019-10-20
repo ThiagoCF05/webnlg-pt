@@ -54,7 +54,7 @@
             <input type="radio" name="fluency" id="rewriting" value="2" checked> Rewriting
           </label>
         </div>
-      </div>
+      </div> 
     </form>
   </div>
   <div class="text-justify" id="article">
@@ -71,7 +71,10 @@
   <div class="text-center">
     <form>
       <div class="form-group">
-        <button id="button" class="btn btn-primary">Submeter</button>
+	<div id="buttons">
+	  <button id="dontknow" class="btn btn-primary">Não sei como traduzir</button>
+	  <button id="doesntneed" class="btn btn-primary">Não precisa de tradução</button>
+          <button id="submit" class="btn btn-primary">Submeter</button>
         <div id="loading" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
