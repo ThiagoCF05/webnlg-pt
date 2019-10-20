@@ -24,8 +24,38 @@ window.onload = function () {
     startTimer(fiveMinutes, display);
 };
 
+function create_dropdown(index, word){
+  var elem = "<span class='dropdown'>" +
+              "<span class='dropbtn'>" + word + "</span>" +
+              "<span class='dropdown-content'>" +
+                 "<a href='#' class='delete'>Delete</a>" +
+                  "<a href='#' class='addright'>Add to Right</a>" +
+                  "<a href='#' class='addleft'>Add to Left</a>" +
+                  "<a href='#' class='move'>Shift</a>" +
+                  "<input class='update' type='text' placeholder='Type Word'>" +
+              "</span>" +
+              "<input type='hidden' value='" + index + "'/>" +
+            "</span>";
+  return elem;
+}
+
+function save_rewriting_history(data){
+  $.ajax({
+    url: "https://homepages.dcc.ufmg.br/~felipealco/webnlg-pt/rewriting.php",
+    type: "POST",
+    data: data,
+    error: function (jqXHR, exception) {
+      console.log(jqXHR);
+    },
+    success: function (data){
+    },
+    dataType: "json"
+  });
+}
+
 $(document).ready(function(){
   var results;
+  var history = Array();
   $("#button").css("display", "none");
   $("#loading").css("display", "inline-block");
 
@@ -47,7 +77,7 @@ $(document).ready(function(){
       results.pos_editings = Array();
       results.translation.split(' ').forEach(function (word, index){
         results.pos_editings.push({
-          "idx": index, 
+          // "idx": index, 
           "word": word, 
           "action":"original", 
           "updated_word": null, 
@@ -58,27 +88,24 @@ $(document).ready(function(){
 
       $("#pos-edition-env").empty();
       results.pos_editings.forEach(function (item, index){
-        var elem = "<span class='dropdown'>" +
-                      "<span class='dropbtn'>" + item.word + "</span>" +
-                      "<span class='dropdown-content'>" +
-                         "<a href='#' class='delete'>Delete</a>" +
-                          "<a href='#' class='addright'>Add to Right</a>" +
-                          "<a href='#' class='addleft'>Add to Left</a>" +
-                          "<input class='update' type='text' placeholder='Update'>" +
-                      "</span>" +
-                      "<input type='hidden' value='" + index + "'/>" +
-                    "</span>";
+        var elem = create_dropdown(index, item.word);
         $("#pos-edition-env").append(elem);
       });
 
-	  $("#rewriting-env").empty();
+  	  $("#rewriting-env").empty();
       $("#rewriting-env").text(results.rewriting);
-	  var h = document.getElementById("rewriting-env").scrollHeight + 6;
-	  //alert($("#rewriting-env").rows);
-	  //autosize(document.getElementById("rewriting-env"));
+  	  var h = document.getElementById("rewriting-env").scrollHeight + 6;
+  	  //alert($("#rewriting-env").rows);
+  	  //autosize(document.getElementById("rewriting-env"));
 
-	  //$("#rewriting-env").style.height(h + "px");
+  	  //$("#rewriting-env").style.height(h + "px");
       $("#rewriting-env").css("height", h + "px");
+
+      results.isPosedited = 0;
+      results.isRewritten = 1;
+      $("#pos-edition-env").css("display", "none");
+      $("#rewriting-env").css("display", "block");
+      
       $("#button").css("display", "inline-block");
       $("#loading").css("display", "none");
     },
@@ -90,6 +117,11 @@ $(document).ready(function(){
 
     $("#button").css("display", "none");
     $("#loading").css("display", "inline-block");
+
+    if (!$('#check').is(":checked")){
+      results.isPosedited = 0;
+      results.isRewritten = 0;
+    }
 
     $.ajax({
       url: "https://homepages.dcc.ufmg.br/~felipealco/webnlg-pt/routing.php",
@@ -110,7 +142,7 @@ $(document).ready(function(){
         results.pos_editings = Array();
         results.translation.split(' ').forEach(function (word, index){
           results.pos_editings.push({
-            "idx": index, 
+            // "idx": index, 
             "word": word, 
             "action":"original", 
             "updated_word": null, 
@@ -121,31 +153,26 @@ $(document).ready(function(){
 
         $("#pos-edition-env").empty();
         results.pos_editings.forEach(function (item, index){
-          var elem = "<span class='dropdown'>" +
-                        "<span class='dropbtn'>" + item.word + "</span>" +
-                        "<span class='dropdown-content'>" +
-                           "<a href='#' class='delete'>Delete</a>" +
-                            "<a href='#' class='addright'>Add to Right</a>" +
-                            "<a href='#' class='addleft'>Add to Left</a>" +
-                            "<input class='update' type='text' placeholder='Update'>" +
-                        "</span>" +
-                        "<input type='hidden' value='" + index + "'/>" +
-                      "</span>";
+          var elem = create_dropdown(index, item.word);
           $("#pos-edition-env").append(elem);
         });
         
         $("#rewriting-env").val(results.rewriting);
 
-        results.isPosedited = 1;
-        results.isRewritten = 0;
-        $("#pos-edition-env").css("display", "block");
-        $("#rewriting-env").css("display", "none");
+        results.isPosedited = 0;
+        results.isRewritten = 1;
+        $("#pos-edition-env").css("display", "none");
+        $("#rewriting-env").css("display", "block");
 
         $("#button").css("display", "inline-block");
         $("#loading").css("display", "none");
       },
       dataType: "json"
     });
+
+    doc = { 'participant_id':results.participant_id, 'translation_id':results.translation_id, 'history': history.slice() };
+    history = Array();
+    save_rewriting_history(doc);
   });
 
   // POS-EDITING X REWRITING EVENTS
@@ -163,28 +190,71 @@ $(document).ready(function(){
     $("#rewriting-env").css("display", "block");
   });
 
-  // Update EVENT
+  // Update REWRITING EVENT
   $('body').on('input', '#rewriting-env', function (e) {
     var text = $(this).val();
     results.rewriting = text;
+
+    // add log at every second
+    now = new Date();
+    input = { 'text': text, 'created_at': results.created_at, 'updated_at': now.toISOString().slice(0, 19).replace('T', ' '), 'time': now };
+    history_len = history.length;
+    if (history_len == 0){
+        history.push(input);
+    } else {
+      prev_input = history[history_len-1];
+      diff = input['time'] - prev_input['time'];
+      // greater than one second
+      if (diff >= 1000){
+        history.push(input);
+      }
+    }
+
+    // if the buffer's length is greater than 50, save the logs into the database
+    history_len = history.length;
+    if (history_len >= 50){
+      doc = { 'participant_id':results.participant_id, 'translation_id':results.translation_id, 'history': history.slice() };
+      history = Array();
+      save_rewriting_history(doc);
+    }
   });
 
   // DELETE EVENT
   $('body').on('click', '.delete', function (e) {
     var dropdown = $(this).parent().parent();
     var children = $(dropdown).children();
+    // get delete button
+    var btn_delete = $(children[1]).children()[0];
     // get dropbtn class
     var dropbtn = children[0];
 
-    var d = $("<del></del>").text(dropbtn.textContent);   // Create with jQuery
-
     // get token index and update token
     var index = $(children[2]).val();
-    results.pos_editings[index].action = "deleted";
-    results.pos_editings[index].updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    var action = results.pos_editings[index].action;
 
-    $(dropbtn).text("");
-    $(dropbtn).append(d);
+    if (action == "deleted"){
+      // get textual content within <del> tag
+      var text = $(dropbtn).children()[0].textContent;
+      $(dropbtn).text("");
+      $(dropbtn).append(text);
+
+      // update label in delete button
+      btn_delete.textContent = "Delete";
+
+      results.pos_editings[index].action = "undeleted";
+    } else {
+      // put word within <del> tag
+      var d = $("<del></del>").text(dropbtn.textContent);   // Create with jQuery
+      $(dropbtn).text("");
+      $(dropbtn).append(d);
+
+      // update label in delete button
+      btn_delete.textContent = "Cancel Delete";
+
+      results.pos_editings[index].action = "deleted";
+    }
+    
+    results.pos_editings[index].updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
   });
 
   // Update EVENT
@@ -205,6 +275,30 @@ $(document).ready(function(){
 
     $(dropbtn).text("");
     $(dropbtn).append(d);
+  });
+
+  // SHIFT EVENT
+  $('body').on('click', '.move', function (e) {
+    var env = $('#pos-edition-env').children();
+
+    var dropdown = $(this).parent().parent();
+    var children = $(dropdown).children();
+    var index = Number($(children[2]).val());
+
+    if (index+1 != env.length){
+      results.pos_editings[index].action = "shift-right";
+      results.pos_editings[index+1].action = "shift-left";
+
+      // shift the order on the pos-editings
+      let cutOut = results.pos_editings.splice(index, 1) [0]; 
+      results.pos_editings.splice(index+1, 0, cutOut);
+      
+      $("#pos-edition-env").empty();
+      results.pos_editings.forEach(function (item, index){
+        var elem = create_dropdown(index, item.word);
+        $("#pos-edition-env").append(elem);
+      });
+    }
   });
 
   // ADDITION EVENTS
@@ -270,24 +364,17 @@ $(document).ready(function(){
     var parent = $(input_group).parent();
     var children = $(parent).children();
     var index = $(children[1]).val();
+
     results.pos_editings[index].action = "added";
     results.pos_editings[index].word = text;
     results.pos_editings[index].updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
     $(children[1]).remove();
 
     $(parent).css('background-color', 'red');
-    var elem = "<span class='dropbtn'>" + text + "</span>" +
-            "<span class='dropdown-content'>" +
-                "<a href='#' class='delete'>Delete</a>" +
-                "<a href='#' class='addright'>Add to Right</a>" +
-                "<a href='#' class='addleft'>Add to Left</a>" +
-                "<input class='update' type='text' placeholder='Update'>" +
-            "</span>" +
-            "<input type='hidden' value='" + index + "'/>";
+    var elem = create_dropdown(index, text);
     $(parent).append(elem);
 
     $(input_group).remove();
-
   });
 });
 

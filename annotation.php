@@ -47,11 +47,11 @@
         <label><strong>Edition Mode:</strong></label>
         <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
         <div class="radio">
-          <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
-            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Pos-Edition
-          </label>
           <label class="radio-inline" style="margin-left:0.5cm">
             <input type="radio" name="fluency" id="rewriting" value="2" checked> Rewriting
+          </label>
+          <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
+            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Post-Editing
           </label>
         </div>
       </div>
@@ -70,6 +70,14 @@
   <br/>
   <div class="text-center">
     <form>
+      <div class="form-group">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="check">
+          <label class="form-check-label" for="check">
+            Check me if the translation does not need pos-editing
+          </label>
+        </div>
+      </div>
       <div class="form-group">
         <button id="button" class="btn btn-primary">Submeter</button>
         <div id="loading" class="spinner-border" role="status">
