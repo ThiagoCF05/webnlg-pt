@@ -69,15 +69,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $pos_editings = $_POST['pos_editings'];
     $posedition = "";
     $word_idx = 1;
+    
     foreach ($pos_editings as $pos_editing) {
         $word = mysqli_real_escape_string($conn, $pos_editing['word']);
         $action = mysqli_real_escape_string($conn, $pos_editing['action']);
         $updated_word = mysqli_real_escape_string($conn, $pos_editing['updated_word']);
         $updated_at = mysqli_real_escape_string($conn, $pos_editing['updated_at']);
-        if (strcmp($updated_at,"") == 0){
-            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', NULL); ";
-        } else {
-            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', '$updated_at'); ";
+        // just save history whether pos edited is set
+        if ((int)$isPosedited != 0){
+            if (strcmp($updated_at,"") == 0){
+                $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', NULL); ";
+            } else {
+                $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', '$updated_at'); ";
+            }
+            
+            $word_idx = $word_idx + 1;
+            $result = $conn->query($sql) or die($conn->error);
         }
         
         $result = $conn->query($sql) or die($conn->error);
