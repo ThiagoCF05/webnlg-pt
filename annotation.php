@@ -31,22 +31,29 @@
 </head>
 <body>
 <?php echo "<input id=\"participant_id\" type=\"hidden\" value=\"{$_SESSION['participant_id']}\"/>"; ?>
-<header>
-  <nav class="navbar navbar-light bg-light">
-    <span class="navbar-brand" id="user"><?php echo "{$_SESSION['email']}"; ?></span>
-    <form class="form-inline" action="logout.php" method="get">
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Sair</button>
-    </form>
+<header style="z-index:1;">
+  <nav class="navbar navbar-light bg-light" style="z-index:1;">
+    <div id=left>
+      <span class="inavbar-brand" id="user"><?php echo "{$_SESSION['email']}"; ?></span>
+    </div>
+    <div id="right">
+      <form class="form-inline" action="logout.php" method="get">
+        <button type="button" class="btn btn-danger" id="pause">Pausar</button>
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left:5px;">Sair</button>
+      </form>
+    </div>
   </nav>
 </header>
-<br>
+<div class="darklayer">
+   <p style="color: white; font-size: 100px; font-weight: bold; text-align: center; margin-top: 100px;">PAUSADO</p>
+</div>
 <div class="container">
   <div class="text-center">
-    <form>
-      <div class="form-mode-select">
-        <label><strong>Edition Mode:</strong></label>
+	    <form>
+      <div class="form-mode-select" style="margin-top:10px">
+        <label><h5 class="text-center">Edition Mode:</h5></label>
         <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
-        <div class="radio">
+        <div class="radio" style="margin-bottom:1rem">
           <label class="radio-inline" style="margin-left:0.5cm">
             <input type="radio" name="fluency" id="rewriting" value="2" checked> Rewriting
           </label>
@@ -61,25 +68,26 @@
     <h5 class="text-center">Original Text</h5>
     <p style="font-size:25px" id="original_text">Original</p>
   </div>
-  <br>
   <div class="text-justify">
     <h5 class="text-center">Automatic Translation</h5>
-    <p style="font-size:30px;display:none" id="pos-edition-env">Translation</p>
-    <textarea style="font-size:30px;display:block;width:100%;resize:none;" id="rewriting-env"></textarea>
+    <p style="font-size:25px;display:none" id="pos-edition-env">Translation</p>
+    <textarea style="font-size:25px;display:block;width:100%;resize:none;" id="rewriting-env"></textarea>
   </div>
   <br/>
   <div class="text-center">
     <form>
       <div class="form-group">
-        <div class="form-check">
+        <div class="form-check" style="display:none">
           <input class="form-check-input" type="checkbox" id="check">
           <label class="form-check-label" for="check">
             Check me if the translation does not need pos-editing
           </label>
         </div>
       </div>
-      <div class="form-group">
-        <button id="button" class="btn btn-primary">Submeter</button>
+      <div class="form-group" id="buttons">
+        <button id="dontknow" class="btn btn-secondary">Não tenho certeza</button>
+        <button id="noneed" class="btn btn-secondary">Não precisa de correção</button>
+        <button id="submit" class="btn btn-primary">Submeter</button>
         <div id="loading" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>

@@ -11,14 +11,14 @@ function startTimer(duration, display) {
 
         if (--timer < 0) {
             timer = duration;
-            document.getElementById('button').removeAttribute('disabled');
+            document.getElementById('buttons').removeAttribute('disabled');
             document.getElementById('timer').style.display = 'none';
         }
     }, 1000);
 }
 
 window.onload = function () {
-    document.getElementById('button').setAttribute('disabled', 'true');
+    document.getElementById('buttons').setAttribute('disabled', 'true');
     var fiveMinutes = 1,
         display = document.querySelector('#timer');
     startTimer(fiveMinutes, display);
@@ -56,7 +56,7 @@ function save_rewriting_history(data){
 $(document).ready(function(){
   var results;
   var history = Array();
-  $("#button").css("display", "none");
+  $("#buttons").css("display", "none");
   $("#loading").css("display", "inline-block");
 
   $.ajax({
@@ -92,13 +92,9 @@ $(document).ready(function(){
         $("#pos-edition-env").append(elem);
       });
 
-  	  $("#rewriting-env").empty();
+      $("#rewriting-env").empty();
       $("#rewriting-env").text(results.rewriting);
-  	  var h = document.getElementById("rewriting-env").scrollHeight + 6;
-  	  //alert($("#rewriting-env").rows);
-  	  //autosize(document.getElementById("rewriting-env"));
-
-  	  //$("#rewriting-env").style.height(h + "px");
+      var h = document.getElementById("rewriting-env").scrollHeight + 6;
       $("#rewriting-env").css("height", h + "px");
       
       results.isPosedited = 0;
@@ -106,10 +102,15 @@ $(document).ready(function(){
       $("#pos-edition-env").css("display", "none");
       $("#rewriting-env").css("display", "block");
       
-      $("#button").css("display", "inline-block");
+      $("#buttons").css("display", "inline-block");
       $("#loading").css("display", "none");
     },
     dataType: "json"
+  });
+
+  $("#noneed").click(function (e){
+    document.getElementById("noneed").checked = true;
+    $("#submit").click();
   });
 
   $("#submit").click(function (e){
@@ -159,13 +160,8 @@ $(document).ready(function(){
         
         $("#rewriting-env").val(results.rewriting);
 
-        //results.isPosedited = 1;
-        //results.isRewritten = 0;
-        //$("#pos-edition-env").css("display", "block");
-        //$("#rewriting-env").css("display", "none");
-
         $("#buttons").css("display", "inline-block");
-        $("#loading").css("display", "none");
+        $("#loading").css("display", "none")
       },
       dataType: "json"
     });
@@ -188,6 +184,11 @@ $(document).ready(function(){
     results.isRewritten = 1;
     $("#pos-edition-env").css("display", "none");
     $("#rewriting-env").css("display", "block");
+  });
+
+  //BLACKOUT PAUSE
+  $("#pause").click(function (){
+    $('.darklayer').toggleClass('active');
   });
 
   // Update REWRITING EVENT
