@@ -1,3 +1,29 @@
+function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    var interval = setInterval(function () {
+        minutes = parseInt(timer / 60, 10);
+        seconds = parseInt(timer % 60, 10);
+
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+
+        display.textContent = minutes + ":" + seconds;
+
+        if (--timer < 0) {
+            timer = duration;
+            document.getElementById('buttons').removeAttribute('disabled');
+            document.getElementById('timer').style.display = 'none';
+        }
+    }, 1000);
+}
+
+window.onload = function () {
+    document.getElementById('buttons').setAttribute('disabled', 'true');
+    var fiveMinutes = 1,
+        display = document.querySelector('#timer');
+    startTimer(fiveMinutes, display);
+};
+
 function create_dropdown(index, word){
   var elem = "<span class='dropdown'>" +
               "<span class='dropbtn'>" + word + "</span>" +
@@ -29,73 +55,9 @@ function save_rewriting_history(data){
 
 $(document).ready(function(){
   var results;
-  var totalSeconds_hidden = 0;
-	var history = Array();
-	$("#buttons").css("display", "none");
-	$("#loading").css("display", "inline-block");
-
-	//stopwatcher https://stackoverflow.com/a/45808943
-  var secondsLabel_hidden = document.getElementById('seconds_hidden');
-
-	(function() {
-		"use strict";
-		var secondsLabel = document.getElementById('seconds'),
-		minutesLabel = document.getElementById('minutes'), 
-		totalSeconds = 0,
-		pauseButton = document.getElementById('pause'), 
-	  timer = null,
-    timer_hidden = null,
-	  blink_id;
-
-		pauseButton.onclick = function() {
-		  if (timer) {
-        //timer
-		    clearInterval(timer);
-		    timer = null;
-        //timer hidden
-        timer_hidden = setInterval(setTime_hidden, 1000);
-        //blink
-		    blink_id = setInterval(blink_text, 800);
-		  } else {
-        //timer
-		    timer = setInterval(setTime, 1000);
-        //timer hidden
-        clearInterval(timer_hidden);
-        timer_hidden = null;
-        //blink
-		    clearInterval(blink_id);
-		  }
-		};
-
-		function setTime() {
-		  totalSeconds++;
-		  secondsLabel.innerHTML = pad(totalSeconds % 60);
-		  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-		}
-
-
-		function setTime_hidden() {
-		  totalSeconds_hidden++;
-		  secondsLabel_hidden.innerHTML = pad(totalSeconds_hidden);
-		}
-
-		function pad(val) {
-		  var valString = val + "";
-		  if (valString.length < 2) {
-		    return "0" + valString;
-		  } else {
-		    return valString;
-		  }
-		}
-		
-	  function blink_text() {
-		  $('#middle').fadeOut(400);
-		  $('#middle').fadeIn(400);
-    }
-  
-  timer = setInterval(setTime, 1000);
-
-	})();
+  var history = Array();
+  $("#buttons").css("display", "none");
+  $("#loading").css("display", "inline-block");
 
   $.ajax({
     url: "https://homepages.dcc.ufmg.br/~felipealco/webnlg-pt/routing.php",
@@ -134,9 +96,9 @@ $(document).ready(function(){
       $("#rewriting-env").text(results.rewriting);
       var h = document.getElementById("rewriting-env").scrollHeight + 6;
       $("#rewriting-env").css("height", h + "px");
-    
-      results.status = "rewritten";
       
+      results.isPosedited = 0;
+      results.isRewritten = 1;
       $("#pos-edition-env").css("display", "none");
       $("#rewriting-env").css("display", "block");
       
@@ -147,21 +109,20 @@ $(document).ready(function(){
   });
 
   $("#noneed").click(function (e){
-    results.status = "noneed";
+    document.getElementById("noneed").checked = true;
     $("#submit").click();
   });
-  
-  $("#dontknow").click(function (e){
-    results.status = "dontknow";
-    $("#submit").click();
-  });
-  
+
   $("#submit").click(function (e){
-    results.pause = totalSeconds_hidden;
     e.preventDefault();
 
     $("#buttons").css("display", "none");
     $("#loading").css("display", "inline-block");
+
+    if (!$('#check').is(":checked")){
+      results.isPosedited = 0;
+      results.isRewritten = 0;
+    }
 
     $.ajax({
       url: "https://homepages.dcc.ufmg.br/~felipealco/webnlg-pt/routing.php",
@@ -200,7 +161,7 @@ $(document).ready(function(){
         $("#rewriting-env").val(results.rewriting);
 
         $("#buttons").css("display", "inline-block");
-        $("#loading").css("display", "none");
+        $("#loading").css("display", "none")
       },
       dataType: "json"
     });
@@ -212,13 +173,15 @@ $(document).ready(function(){
 
   // POS-EDITING X REWRITING EVENTS
   $("#pos-edition").click(function (){
-    results.status = "posEdited";
+    results.isPosedited = 1;
+    results.isRewritten = 0;
     $("#pos-edition-env").css("display", "block");
     $("#rewriting-env").css("display", "none");
   });
 
   $("#rewriting").click(function (){
-    results.status = "rewritten";
+    results.isPosedited = 0;
+    results.isRewritten = 1;
     $("#pos-edition-env").css("display", "none");
     $("#rewriting-env").css("display", "block");
   });
@@ -226,6 +189,16 @@ $(document).ready(function(){
   //BLACKOUT PAUSE
   $("#pause").click(function (){
     $('.darklayer').toggleClass('active');
+    var x = 0;
+    if(x % 2 == 0){
+      setInterval(function () {
+        $("#middle").toggle();
+      }, 1000);
+    }
+    else{
+      clearInterval
+
+    }
   });
 
   // Update REWRITING EVENT
@@ -414,6 +387,6 @@ $(document).ready(function(){
 
     $(input_group).remove();
   });
-  
 });
+
 

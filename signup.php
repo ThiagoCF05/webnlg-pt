@@ -14,7 +14,27 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+        integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+        crossorigin="anonymous"></script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+
+  <!-- annotation.js -->
+  <script src="js/signup.js"></script>
+
   <title>Universidade de Minas Gerais - UFMG</title>
+
+<link rel="stylesheet" href="css/annotation.css">
+
 </head>
 
 <body class="container">
@@ -124,38 +144,102 @@
   </div>
   <div class="text-center">
     <p class="lead">
-      <strong>Bem-vindx!</strong> Obrigadx por participar da nossa pesquisa. Por favor, leia as instruções a seguir atentamente.
+      <strong>Bem-vindx!</strong> Obrigadx por participar da nossa pesquisa!<br>A seguir você encontra algumas informações básicas sobre o projeto e o formulário de cadastro.
     </p>
   </div>
   <div class="text-justify">
+    <section>
+      <h3>De que trata a pesquisa?</h3>
+      <p class="lead">
+        Nosso projeto visa produzir uma versão em Português Brasileiro do corpus <a href="http://webnlg.loria.fr/pages/docs.html">WebNLG</a> utilizando pós-edição e um estudo sobre as limitações das máquinas de tradução e da participação humana neste processo.
+      </p>
+    <section>
+    <section>
+      <h3>O que devo fazer?</h3>
+      <p class="lead">
+        Após feito seu cadastro, você terá acesso a uma página na qual você verá um excerto de texto em inglês e sua tradução para o português. Você deve indicar se a tradução está adequada ao texto em inglês e, caso não estiver, você pode (1) modificar (pós-editar) o texto em português, substituindo partes dele, ou bem (2) refazer a tradução na caixa abaixo, se você achar que precisa de alterações substanciais. Se você deseja modificar algumas partes, você pode clicar na(s) palavra(s) que deseja alterar e escolher uma das opções do menu pop-up.
+      </p>
     <section id="Proceedings">
-      <h3>Procedimento</h3>
+      <h3>Exemplo</h3>
       <p class="lead">
-        Instruction
+        A tela de edição é exatamente como no exemplo abaixo. O editor possui dois modos: rewriting e post-editing. No modo rewriting a edição é livre como num editor de textos. Já no post-editing existem operações pré-definidas que podem ser aplicadas a cada palavra no texto. Sinta-se livre para experimentá-las no exemplo abaixo. </p>
+      <p class="lead">
+        
       </p>
 
-      <p class="jumbotron lead">
-        Example
-      </p>
+      <div class="jumbotron lead">
+      <div class="text-center">
+            <form>
+      <div class="form-mode-select" style="margin-top:10px">
+        <label><h5 class="text-center">Edition Mode:</h5></label>
+        <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
+        <div class="radio" style="margin-bottom:1rem">
+          <label class="radio-inline" style="margin-left:0.5cm">
+            <input type="radio" name="fluency" id="rewriting" value="2" checked> Rewriting
+          </label>
+          <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
+            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Post-Editing
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="text-justify" id="article">
+    <h5 class="text-center">Original Text</h5>
+    <p style="font-size:25px" id="original_text">Original</p>
+  </div>
+  <div class="text-justify">
+    <h5 class="text-center">Automatic Translation</h5>
+    <p style="font-size:25px;display:none;background-color:white;" id="pos-edition-env">Translation</p>
+    <textarea style="font-size:25px;display:block;width:100%;resize:none;" id="rewriting-env"></textarea>
+  </div>
+  <br/>
+  <div class="text-center">
+    <form>
+      <div class="form-group" id="buttons">
+        <button id="dontknow" class="btn btn-secondary">Não tenho certeza</button>
+        <button id="noneed" class="btn btn-secondary">Não precisa de correção</button>
+        <button id="submit" class="btn btn-primary">Submeter</button>
+      </div>
+    </form>
+  </div>
+  </div>
 
-      <p class="lead">
-        Instruction
-      </p>
     </section>
-
     <section id="payment">
-      <h3>Créditos</h3>
+      <h3>Como posso solicitar uma declaração de participação?</h3>
       <p class="lead">
-        Explicar como os participantes ganharão créditos
+        Se você deseja receber um certificado de participação no projeto, pode solicitá-lo ao e-mail ................... indicando seu nome cadastrado. Alunos de graduação e pós-graduação interessados em uma declaração para fins de créditos junto aos seus respectivos Colegiados de Curso devem indicar que desejam uma declaração de número de horas/créditos por participação em projeto de pesquisa.  
       </p>
+      <p class="lead">
+        Com base no tempo médio de pós-edição/reescrita por sentença, temos a seguinte conversão:
+	<ul>
+	  <li>300 orações = 15hs = 1 crédito</li>
+	  <li>150 orações = 7,5 hs = 0,5 crédito</li>
+	  <li>75 orações = 3,75 hs = 0,25 crédito</li>
+	</ul>
+      <p class="lead">
+       O número de sentenças pós-editadas por cada usuário é registrado pelo sistema. Atenção: quando você marca uma sentença como "Não sei como traduzir" ela não entra na sua contagem de traduções.
+      </p>
+
+      <p>
     </section>
+
+    <section id="observacoes">
+    <h3>Algumas observações</h3>
+    <p class="lead"><strong>Tempo</strong> O nosso sistema registra quanto tempo dura cada edição. Por isso é importante que você utilize a opção de pausa quando não estiver fazendo as edições.</p>
+    <p class="lead"><strong>Português Europeu</strong> Você não precisa corrigir sentenças escritas no Português Europeu, mas você deve estar atento para as mudanças recentes na língua. Por exemplo, o c mudo não é mais aceito no Português Europeu. Se tiver dúvida use a opção "Não sei como traduzir".</p>
+    <p class="lead"><strong>Tradução de Nomes</strong> A tradução de nomes fica à seu critério. Se você quiser pode pausar o sistema e dar uma procurada no Google para verificar se existe uma tradução. Se ainda tiver dúvida use a opção "Não sei como traduzir".</p>
     <section id="terms">
-      <h3>Termos</h3>
+      <h3>Nossos termos</h3>
       <p class="lead">
         Sua informação será somente utilizada para fins de pesquisa e será tratada de maneira anônima.
       </p>
       <p class="lead">
-        Se você concorda com as instruções aqui apresentadas e gostaria de participar do experimento, por favor preencha o formulário a seguinte e clique no botão "Eu concordo".
+        Sua informação será somente utilizada para fins de pesquisa e será tratada de maneira anônima. Seu nome é solicitado para fins de emissão de declaração de participação ou créditos. Seu e-mail é solicitado para contato em caso de problema técnico no site.
+      </p>
+      <p class="lead">
+	Se você concorda com as informações aqui apresentadas e gostaria de participar da pesquisa, por favor preencha o formulário a seguir e clique no botão "Eu concordo".
       </p>
       <section class="jumbotron">
         <form class="form-horizontal lead" action="signup_post.php" method="post">

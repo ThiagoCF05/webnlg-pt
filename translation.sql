@@ -60,8 +60,8 @@ CREATE TABLE `Lex` (
   `entry_id` int(11) NOT NULL,
   `lid` varchar(10) NOT NULL,
   `comment` varchar(45) NOT NULL,
-  `text` varchar(200) NOT NULL,
-  `tokenized_text` varchar(200) NOT NULL,
+  `text` varchar(500) NOT NULL,
+  `tokenized_text` varchar(500) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -75,8 +75,9 @@ CREATE TABLE `LinearPosEditing` (
   `id` int(11) NOT NULL,
   `translation_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `text` varchar(200) NOT NULL,
-  `isPosEdited` tinyint(4) NOT NULL DEFAULT 1,
+  `text` varchar(500) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `pause` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -102,22 +103,6 @@ CREATE TABLE `PosEditing` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `Rewriting`
---
-
-CREATE TABLE `Rewriting` (
-  `id` int(11) NOT NULL,
-  `translation_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `text` varchar(200) NOT NULL,
-  `isRewritten` tinyint(4) NOT NULL DEFAULT 0,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `RewritingHistory`
 --
 
@@ -125,7 +110,7 @@ CREATE TABLE `RewritingHistory` (
   `id` int(11) NOT NULL,
   `translation_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `text` varchar(300) NOT NULL,
+  `text` varchar(500) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -140,9 +125,9 @@ CREATE TABLE `Translation` (
   `id` int(11) NOT NULL,
   `lex_id` int(11) NOT NULL,
   `engine_id` int(11) NOT NULL,
-  `text` varchar(200) NOT NULL,
-  `tokenized_text` varchar(200) NOT NULL,
-  `counting` int(11) NOT NULL DEFAULT 1,
+  `text` varchar(500) NOT NULL,
+  `tokenized_text` varchar(500) NOT NULL,
+  `counting` int(11) NOT NULL DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -217,14 +202,6 @@ ALTER TABLE `PosEditing`
   ADD KEY `posedit_user_key_idx` (`user_id`);
 
 --
--- Indexes for table `Rewriting`
---
-ALTER TABLE `Rewriting`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `rewriting_translation_key_idx` (`translation_id`),
-  ADD KEY `rewriting_user_key_idx` (`user_id`);
-
---
 -- Indexes for table `RewritingHistory`
 --
 ALTER TABLE `RewritingHistory`
@@ -287,12 +264,6 @@ ALTER TABLE `PosEditing`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `Rewriting`
---
-ALTER TABLE `Rewriting`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `RewritingHistory`
 --
 ALTER TABLE `RewritingHistory`
@@ -345,13 +316,6 @@ ALTER TABLE `LinearPosEditing`
 ALTER TABLE `PosEditing`
   ADD CONSTRAINT `posedit_translation_key` FOREIGN KEY (`translation_id`) REFERENCES `Translation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `posedit_user_key` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Constraints for table `Rewriting`
---
-ALTER TABLE `Rewriting`
-  ADD CONSTRAINT `rewriting_translation_key` FOREIGN KEY (`translation_id`) REFERENCES `Translation` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `rewriting_user_key` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `RewritingHistory`

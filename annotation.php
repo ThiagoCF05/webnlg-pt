@@ -36,8 +36,11 @@
     <div id=left>
       <span class="inavbar-brand" id="user"><?php echo "{$_SESSION['email']}"; ?></span>
     </div>
+    <div id="middle">
+      <span id='minutes'>00</span>:<span id='seconds'>00</span>
+    </div>
     <div id="right">
-      <form class="form-inline" action="logout.php" method="get">
+      <form class="form-inline" action="logout.php" method="get" style="float: right;">
         <button type="button" class="btn btn-danger" id="pause">Pausar</button>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left:5px;">Sair</button>
       </form>
@@ -45,7 +48,7 @@
   </nav>
 </header>
 <div class="darklayer">
-   <p style="color: white; font-size: 100px; font-weight: bold; text-align: center; margin-top: 100px;">PAUSADO</p>
+   <p style="color: white; font-size: 10vw; font-weight: bold; text-align: center; margin-top: 100px;">PAUSADO</p>
 </div>
 <div class="container">
   <div class="text-center">
@@ -76,14 +79,6 @@
   <br/>
   <div class="text-center">
     <form>
-      <div class="form-group">
-        <div class="form-check" style="display:none">
-          <input class="form-check-input" type="checkbox" id="check">
-          <label class="form-check-label" for="check">
-            Check me if the translation does not need pos-editing
-          </label>
-        </div>
-      </div>
       <div class="form-group" id="buttons">
         <button id="dontknow" class="btn btn-secondary">Não tenho certeza</button>
         <button id="noneed" class="btn btn-secondary">Não precisa de correção</button>
@@ -91,7 +86,6 @@
         <div id="loading" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>
-        <span id="timer" class="form-text text-muted">00:20</span>
       </div>
     </form>
   </div>
