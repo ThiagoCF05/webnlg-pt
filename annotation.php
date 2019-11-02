@@ -54,35 +54,35 @@
   <div class="text-center">
 	    <form>
       <div class="form-mode-select" style="margin-top:10px">
-        <label><h5 class="text-center">Edition Mode:</h5></label>
+        <label><h5 class="text-center">Modo de Edição</h5></label>
         <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
         <div class="radio" style="margin-bottom:1rem">
           <label class="radio-inline" style="margin-left:0.5cm">
-            <input type="radio" name="fluency" id="rewriting" value="2" checked> Rewriting
+            <input type="radio" name="fluency" id="rewriting" value="2" checked> Reescrita
           </label>
           <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
-            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Post-Editing
+            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Pós-edição
           </label>
         </div>
       </div> 
     </form>
   </div>
   <div class="text-justify" id="article">
-    <h5 class="text-center">Original Text</h5>
+    <h5 class="text-center">Texto Original</h5>
     <p style="font-size:25px" id="original_text">Original</p>
   </div>
   <div class="text-justify">
-    <h5 class="text-center">Automatic Translation</h5>
-    <p style="font-size:25px;display:none" id="pos-edition-env">Translation</p>
+    <h5 class="text-center">Tradução Automática</h5>
+    <p style="font-size:25px;display:none" id="pos-edition-env">Tradução</p>
     <textarea style="font-size:25px;display:block;width:100%;resize:none;" id="rewriting-env"></textarea>
   </div>
   <br/>
   <div class="text-center">
     <form>
       <div class="form-group" id="buttons">
-        <button id="dontknow" class="btn btn-secondary">Não tenho certeza</button>
-        <button id="noneed" class="btn btn-secondary">Não precisa de correção</button>
-        <button id="submit" class="btn btn-primary">Submeter</button>
+        <button id="dontknow" class="btn btn-secondary">Pular</button>
+        <!--<button id="noneed" class="btn btn-secondary">Não precisa de correção</button>-->
+        <button id="submit" class="btn btn-primary">Confirmar tradução</button>
         <div id="loading" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>
         </div>

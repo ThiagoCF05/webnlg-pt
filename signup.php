@@ -144,52 +144,54 @@
   </div>
   <div class="text-center">
     <p class="lead">
-      <strong>Bem-vindx!</strong> Obrigadx por participar da nossa pesquisa!<br>A seguir você encontra algumas informações básicas sobre o projeto e o formulário de cadastro.
+      <strong>Bem-vindo!</strong> Obrigado por participar da nossa pesquisa!
     </p>
   </div>
   <div class="text-justify">
     <section>
-      <h3>De que trata a pesquisa?</h3>
       <p class="lead">
-        Nosso projeto visa produzir uma versão em Português Brasileiro do corpus <a href="http://webnlg.loria.fr/pages/docs.html">WebNLG</a> utilizando pós-edição e um estudo sobre as limitações das máquinas de tradução e da participação humana neste processo.
+        Nosso projeto visa produzir uma versão em português brasileiro do corpus <a href="http://webnlg.loria.fr/pages/docs.html">WebNLG</a> utilizando a pós-edição da tradução automática.
       </p>
+    </section>
     <section>
-    <section>
-      <h3>O que devo fazer?</h3>
       <p class="lead">
-        Após feito seu cadastro, você terá acesso a uma página na qual você verá um excerto de texto em inglês e sua tradução para o português. Você deve indicar se a tradução está adequada ao texto em inglês e, caso não estiver, você pode (1) modificar (pós-editar) o texto em português, substituindo partes dele, ou bem (2) refazer a tradução na caixa abaixo, se você achar que precisa de alterações substanciais. Se você deseja modificar algumas partes, você pode clicar na(s) palavra(s) que deseja alterar e escolher uma das opções do menu pop-up.
+        Após feito seu cadastro, você terá acesso a uma página na qual você verá um pequeno texto em inglês e sua tradução para o português.
       </p>
+      <p class="lead">
+        Você deve indicar se a tradução está adequada ao texto em inglês. Caso não estiver, você pode (1) modificar (pós-editar) o texto em português, clicando na(s) palavra(s) que deseja alterar e escolhendo uma das opções, ou (2) refazer a tradução na caixa abaixo, se você achar que precisa de alterações substanciais.
+      </p>
+    <section id="importante">
+      <h3>Importante</h3>
+      <p class="lead"><strong>Tempo:</strong> O sistema registra o tempo de cada edição. Por isso, quando você precisar interromper a atividade, aperte o botão de pausa. Isso é importante para nossa pesquisa!</p>
+      <p class="lead"><strong>Português europeu:</strong> Algumas sentenças estarão escritas em português europeu. Na hora de pós-editar, utilize o português brasileiro.</p>
+      <p class="lead"><strong>Tradução de nomes próprios:</strong> A tradução de nomes fica ao seu critério, mas se já houver uma tradução conhecida para o nome, você deve utilizá-la. Ex: New York - Nova Iorque. Se você quiser, pode pausar o sistema e dar uma procurada no internet. Se ainda tiver dúvida, use a opção "Pular".</p>
+    </section>
     <section id="Proceedings">
-      <h3>Exemplo</h3>
-      <p class="lead">
-        A tela de edição é exatamente como no exemplo abaixo. O editor possui dois modos: rewriting e post-editing. No modo rewriting a edição é livre como num editor de textos. Já no post-editing existem operações pré-definidas que podem ser aplicadas a cada palavra no texto. Sinta-se livre para experimentá-las no exemplo abaixo. </p>
-      <p class="lead">
-        
-      </p>
-
+      <h3>Teste aqui os dois modos de edição</h3>
+      <p style="font-size:13px;">*O modo pós-edição não está disponível em dispositivos móveis.</p>
       <div class="jumbotron lead">
       <div class="text-center">
             <form>
       <div class="form-mode-select" style="margin-top:10px">
-        <label><h5 class="text-center">Edition Mode:</h5></label>
+        <label><h5 class="text-center">Modo de Edição</h5></label>
         <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
         <div class="radio" style="margin-bottom:1rem">
           <label class="radio-inline" style="margin-left:0.5cm">
-            <input type="radio" name="fluency" id="rewriting" value="2" checked> Rewriting
+            <input type="radio" name="fluency" id="rewriting" value="2" checked> Reescrever
           </label>
           <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
-            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Post-Editing
+            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Pós-Edição
           </label>
         </div>
       </div>
     </form>
   </div>
   <div class="text-justify" id="article">
-    <h5 class="text-center">Original Text</h5>
+    <h5 class="text-center">Texto Original</h5>
     <p style="font-size:25px" id="original_text">Original</p>
   </div>
   <div class="text-justify">
-    <h5 class="text-center">Automatic Translation</h5>
+    <h5 class="text-center">Tradução Automática</h5>
     <p style="font-size:25px;display:none;background-color:white;" id="pos-edition-env">Translation</p>
     <textarea style="font-size:25px;display:block;width:100%;resize:none;" id="rewriting-env"></textarea>
   </div>
@@ -197,9 +199,9 @@
   <div class="text-center">
     <form>
       <div class="form-group" id="buttons">
-        <button id="dontknow" class="btn btn-secondary">Não tenho certeza</button>
-        <button id="noneed" class="btn btn-secondary">Não precisa de correção</button>
-        <button id="submit" class="btn btn-primary">Submeter</button>
+        <button id="dontknow" class="btn btn-secondary">Pular</button>
+        <button id="submit" class="btn btn-primary">Confirmar tradução</button>
+        <!--<button id="noneed" class="btn btn-secondary">Não precisa de correção</button>-->
       </div>
     </form>
   </div>
@@ -209,37 +211,22 @@
     <section id="payment">
       <h3>Como posso solicitar uma declaração de participação?</h3>
       <p class="lead">
-        Se você deseja receber um certificado de participação no projeto, pode solicitá-lo ao e-mail ................... indicando seu nome cadastrado. Alunos de graduação e pós-graduação interessados em uma declaração para fins de créditos junto aos seus respectivos Colegiados de Curso devem indicar que desejam uma declaração de número de horas/créditos por participação em projeto de pesquisa.  
+        Se você deseja receber um certificado de participação no projeto, pode solicitá-lo ao e-mail apagano@ufmg.br indicando seu nome cadastrado. Alunos de graduação e pós-graduação interessados em uma declaração para fins de créditos junto aos seus respectivos Colegiados de Curso devem indicar que desejam uma declaração de número de horas/créditos por participação em projeto de pesquisa.  
       </p>
       <p class="lead">
-        Com base no tempo médio de pós-edição/reescrita por sentença, temos a seguinte conversão:
-	<ul>
-	  <li>300 orações = 15hs = 1 crédito</li>
-	  <li>150 orações = 7,5 hs = 0,5 crédito</li>
-	  <li>75 orações = 3,75 hs = 0,25 crédito</li>
-	</ul>
-      <p class="lead">
-       O número de sentenças pós-editadas por cada usuário é registrado pelo sistema. Atenção: quando você marca uma sentença como "Não sei como traduzir" ela não entra na sua contagem de traduções.
+       O número de sentenças pós-editadas por cada usuário é registrado pelo sistema. Atenção: quando você "pula" uma sentença ela não entra na sua contagem de traduções.
       </p>
 
       <p>
     </section>
 
-    <section id="observacoes">
-    <h3>Algumas observações</h3>
-    <p class="lead"><strong>Tempo</strong> O nosso sistema registra quanto tempo dura cada edição. Por isso é importante que você utilize a opção de pausa quando não estiver fazendo as edições.</p>
-    <p class="lead"><strong>Português Europeu</strong> Você não precisa corrigir sentenças escritas no Português Europeu, mas você deve estar atento para as mudanças recentes na língua. Por exemplo, o c mudo não é mais aceito no Português Europeu. Se tiver dúvida use a opção "Não sei como traduzir".</p>
-    <p class="lead"><strong>Tradução de Nomes</strong> A tradução de nomes fica à seu critério. Se você quiser pode pausar o sistema e dar uma procurada no Google para verificar se existe uma tradução. Se ainda tiver dúvida use a opção "Não sei como traduzir".</p>
-    <section id="terms">
+    <section id="termos">
       <h3>Nossos termos</h3>
       <p class="lead">
-        Sua informação será somente utilizada para fins de pesquisa e será tratada de maneira anônima.
+        Sua informação será utilizada para fins de pesquisa e será tratada de maneira anônima. Seu nome é solicitado para fins de emissão de declaração de participação ou créditos. Seu e-mail é solicitado para contato em caso de problema técnico no site.
       </p>
       <p class="lead">
-        Sua informação será somente utilizada para fins de pesquisa e será tratada de maneira anônima. Seu nome é solicitado para fins de emissão de declaração de participação ou créditos. Seu e-mail é solicitado para contato em caso de problema técnico no site.
-      </p>
-      <p class="lead">
-	Se você concorda com as informações aqui apresentadas e gostaria de participar da pesquisa, por favor preencha o formulário a seguir e clique no botão "Eu concordo".
+	Se você concorda com as informações aqui apresentadas e gostaria de participar da pesquisa, por favor preencha o formulário a seguir e clique no botão <strong>"Eu concordo"</strong>.
       </p>
       <section class="jumbotron">
         <form class="form-horizontal lead" action="signup_post.php" method="post">

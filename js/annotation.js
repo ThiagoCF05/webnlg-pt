@@ -2,11 +2,11 @@ function create_dropdown(index, word){
   var elem = "<span class='dropdown'>" +
               "<span class='dropbtn'>" + word + "</span>" +
               "<span class='dropdown-content'>" +
-                 "<a href='#' class='delete'>Delete</a>" +
-                  "<a href='#' class='addright'>Add to Right</a>" +
-                  "<a href='#' class='addleft'>Add to Left</a>" +
-                  "<a href='#' class='move'>Shift</a>" +
-                  "<input class='update' type='text' placeholder='Type Word'>" +
+                 "<a href='#' class='delete'>Excluir</a>" +
+                  "<a href='#' class='addright'>Adicionar à direita</a>" +
+                  "<a href='#' class='addleft'>Adicionar à esquerda</a>" +
+                  "<a href='#' class='move'>Mover para a direita</a>" +
+                  "<input class='update' type='text' placeholder='Digite uma palavra'>" +
               "</span>" +
               "<input type='hidden' value='" + index + "'/>" +
             "</span>";
@@ -30,73 +30,65 @@ function save_rewriting_history(data){
 $(document).ready(function(){
   var results;
   var totalSeconds_hidden = 0;
-	var history = Array();
-	$("#buttons").css("display", "none");
-	$("#loading").css("display", "inline-block");
+  var history = Array();
+  $("#buttons").css("display", "none");
+  $("#loading").css("display", "inline-block");
 
-	//stopwatcher https://stackoverflow.com/a/45808943
-  var secondsLabel_hidden = document.getElementById('seconds_hidden');
+  //stopwatcher https://stackoverflow.com/a/45808943
+    var secondsLabel = document.getElementById('seconds'),
+        minutesLabel = document.getElementById('minutes'), 
+	pauseButton = document.getElementById('pause'), 
+	timer = null,
+        timer_hidden = null,
+        totalSeconds = 0,
+        blink_id;
 
-	(function() {
-		"use strict";
-		var secondsLabel = document.getElementById('seconds'),
-		minutesLabel = document.getElementById('minutes'), 
-		totalSeconds = 0,
-		pauseButton = document.getElementById('pause'), 
-	  timer = null,
-    timer_hidden = null,
-	  blink_id;
-
-		pauseButton.onclick = function() {
-		  if (timer) {
+    pauseButton.onclick = function() {
+      if (timer) {
         //timer
-		    clearInterval(timer);
-		    timer = null;
+        clearInterval(timer);
+        timer = null;
         //timer hidden
         timer_hidden = setInterval(setTime_hidden, 1000);
         //blink
-		    blink_id = setInterval(blink_text, 800);
-		  } else {
+        blink_id = setInterval(blink_text, 800);
+      } else {
         //timer
-		    timer = setInterval(setTime, 1000);
-        //timer hidden
-        clearInterval(timer_hidden);
-        timer_hidden = null;
-        //blink
-		    clearInterval(blink_id);
-		  }
-		};
+       timer = setInterval(setTime, 1000);
+       //timer hidden
+       clearInterval(timer_hidden);
+       timer_hidden = null;
+       //blink
+       clearInterval(blink_id);
+     }
+    };
 
-		function setTime() {
-		  totalSeconds++;
-		  secondsLabel.innerHTML = pad(totalSeconds % 60);
-		  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-		}
-
-
-		function setTime_hidden() {
-		  totalSeconds_hidden++;
-		  secondsLabel_hidden.innerHTML = pad(totalSeconds_hidden);
-		}
-
-		function pad(val) {
-		  var valString = val + "";
-		  if (valString.length < 2) {
-		    return "0" + valString;
-		  } else {
-		    return valString;
-		  }
-		}
-		
-	  function blink_text() {
-		  $('#middle').fadeOut(400);
-		  $('#middle').fadeIn(400);
+    function setTime() {
+      totalSeconds++;
+      secondsLabel.innerHTML = pad(totalSeconds % 60);
+      minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
     }
-  
-  timer = setInterval(setTime, 1000);
 
-	})();
+    function setTime_hidden() {
+      totalSeconds_hidden++;
+    }
 
+    function pad(val) {
+      var valString = val + "";
+      if (valString.length < 2) {
+        return "0" + valString;
+      } else {
+        return valString;
+      }
+    }
+		
+    function blink_text() {
+      $('#middle').fadeOut(400);
+      $('#middle').fadeIn(400);
+    }
+ 
+    timer = setInterval(setTime, 1000);
+ 
   $.ajax({
     url: "https://homepages.dcc.ufmg.br/~felipealco/webnlg-pt/routing.php",
     type: "GET",
@@ -148,11 +140,13 @@ $(document).ready(function(){
 
   $("#noneed").click(function (e){
     results.status = "noneed";
+    e.preventDefault();
     $("#submit").click();
   });
   
   $("#dontknow").click(function (e){
     results.status = "dontknow";
+    e.preventDefault();
     $("#submit").click();
   });
   
@@ -201,10 +195,22 @@ $(document).ready(function(){
 
         $("#buttons").css("display", "inline-block");
         $("#loading").css("display", "none");
+
+        if ($('#rewriting').is(':checked')) {
+          results.status = "rewritten";
+        } else {
+         results.status = "posEdited";
+        }
+
+        if (timer) {
+          totalSeconds = 0;
+          totalSeconds_hidden = 0;
+          stop()
+        }
       },
       dataType: "json"
     });
-
+    
     doc = { 'participant_id':results.participant_id, 'translation_id':results.translation_id, 'history': history.slice() };
     history = Array();
     save_rewriting_history(doc);
@@ -277,7 +283,7 @@ $(document).ready(function(){
       $(dropbtn).append(text);
 
       // update label in delete button
-      btn_delete.textContent = "Delete";
+      btn_delete.textContent = "Excluir";
 
       results.pos_editings[index].action = "undeleted";
     } else {
@@ -287,7 +293,7 @@ $(document).ready(function(){
       $(dropbtn).append(d);
 
       // update label in delete button
-      btn_delete.textContent = "Cancel Delete";
+      btn_delete.textContent = "Desfazer excluir";
 
       results.pos_editings[index].action = "deleted";
     }
@@ -359,7 +365,7 @@ $(document).ready(function(){
     var elem = $("<span class='dropdown dropadded'>" +
           "<div class='input-group'>" +
           "<input type='text' class='form-control added-input' />" +
-          "<button class='btn added'>Add</button>" +
+          "<button class='btn added'>Adicionar</button>" +
           "</div>" +
           "<input type='hidden' value='" + index + "'/>" +
           "</span>");
@@ -386,7 +392,7 @@ $(document).ready(function(){
       var elem = $("<span class='dropdown dropadded'>" +
         "<div class='input-group'>" +
         "<input type='text' class='form-control added-input' />" +
-        "<button class='btn added'>Add</button>" +
+        "<button class='btn added'>Adicionar</button>" +
         "</div>" +
         "<input type='hidden' value='" + index + "'/>" +
       "</span>");

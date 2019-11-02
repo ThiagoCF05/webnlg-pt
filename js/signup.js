@@ -2,11 +2,11 @@ function create_dropdown(index, word){
   var elem = "<span class='dropdown'>" +
               "<span class='dropbtn'>" + word + "</span>" +
               "<span class='dropdown-content'>" +
-                 "<a href='#' class='delete'>Delete</a>" +
-                  "<a href='#' class='addright'>Add to Right</a>" +
-                  "<a href='#' class='addleft'>Add to Left</a>" +
-                  "<a href='#' class='move'>Shift</a>" +
-                  "<input class='update' type='text' placeholder='Type Word'>" +
+                 "<a href='#' class='delete'>Excluir</a>" +
+                  "<a href='#' class='addright'>Adicionar à direita</a>" +
+                  "<a href='#' class='addleft'>Adicionar à esquerda</a>" +
+                  "<a href='#' class='move'>Mover para a direita</a>" +
+                  "<input class='update' type='text' placeholder='Digite uma palavra'>" +
               "</span>" +
               "<input type='hidden' value='" + index + "'/>" +
             "</span>";
