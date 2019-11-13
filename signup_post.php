@@ -37,6 +37,7 @@
         $sex = mysqli_real_escape_string($conn, $_POST["sex"]);
         $english_proficiency_level = mysqli_real_escape_string($conn, $_POST["english_proficiency_level"]);
         $educational_level = mysqli_real_escape_string($conn, $_POST["educational_level"]);
+        $educational_field = mysqli_real_escape_string($conn, $_POST["educational_field"]);
 
         $sql = "SELECT `email` FROM User WHERE `email` = '$email'";
 
@@ -50,7 +51,7 @@
         }
 
         $ip = get_ip();
-        $sql = "INSERT INTO User (name, email, age, sex, english_proficiency_level, educational_level, ip_address) VALUES ('$name', '$email', '$age', '$sex', '$english_proficiency_level', '$educational_level', '$ip')";
+        $sql = "INSERT INTO User (name, email, age, sex, english_proficiency_level, educational_level, educational_field, ip_address) VALUES ('$name', '$email', '$age', '$sex', '$english_proficiency_level', '$educational_level', '$educational_field', '$ip')";
         // echo "\nSigning up: $sql";
         if ($conn->query($sql) === TRUE) {
             $sql = "SELECT id FROM User WHERE name = '$name' AND age = '$age' AND sex = '$sex'";

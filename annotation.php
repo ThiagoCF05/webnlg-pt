@@ -24,6 +24,7 @@
 
 <!-- annotation.js -->
 <script src="js/annotation.js"></script>
+
 <link rel="stylesheet" href="css/annotation.css">
 <title>
   Semantic Data
@@ -48,24 +49,38 @@
   </nav>
 </header>
 <div class="darklayer">
-   <p style="color: white; font-size: 10vw; font-weight: bold; text-align: center; margin-top: 100px;">PAUSADO</p>
+   <p style="color: white; font-size: 60px; font-weight: bold; text-align: center;">PAUSADO</p>
+  <div id="important" style="background-color:white; padding:3%; width:80%; margin:0 auto;">
+    <section id="importante">
+      <h3>Importante</h3>
+      <p class="lead"><strong>Consultas:</strong> Você pode consultar dicionários online, páginas da Internet e outros enquanto estiver pós-editando. Não precisa pausar. </p>
+      <p class="lead"><strong>Duração:</strong> Se precisar interromper sua pós-edição e retomar mais tarde, é só clicar em PAUSAR.</p>
+      <p class="lead"><strong>Português europeu:</strong> Algumas sentenças estarão escritas em português europeu. Na hora de pós-editar, utilize o português brasileiro.</p>
+      <p class="lead"><strong>Tradução de nomes próprios:</strong> A tradução de nomes fica ao seu critério, mas se já houver uma tradução conhecida para o nome, você deve utilizá-la. Ex: New York - Nova Iorque. Se ainda tiver dúvida, use a opção "Pular".</p>
+    </section>
+  </div>
+  <div id="contato" style="background-color:white; padding:3%; width:80%; margin:0 auto; margin-top:30px; text-align: center;">
+    Alguma dúvida ou sugestão? Fale conosco no <a href="mailto:felipealco@ufmg.br">felipealco@ufmg.br</a>
+  </div>
 </div>
 <div class="container">
   <div class="text-center">
 	    <form>
       <div class="form-mode-select" style="margin-top:10px">
-        <label><h5 class="text-center">Modo de Edição</h5></label>
+        <label><h5 class="text-center">Modo de Pós-Edição</h5></label>
         <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
         <div class="radio" style="margin-bottom:1rem">
           <label class="radio-inline" style="margin-left:0.5cm">
-            <input type="radio" name="fluency" id="rewriting" value="2" checked> Reescrita
+            <input type="radio" name="fluency" id="rewriting" value="2" checked> Livre
           </label>
-          <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
-            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Pós-edição
+          <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed" data-toggle="tooltip" title="Edite a tradução utilizando operações pré-definidas" data-placement="right">
+            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed" > Guiado
           </label>
         </div>
       </div> 
     </form>
+    <label><h5 class="text-center">Tópico</h5></label>
+    <p id="cat">Tópico</p>
   </div>
   <div class="text-justify" id="article">
     <h5 class="text-center">Texto Original</h5>

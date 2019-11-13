@@ -14,25 +14,43 @@
     return $conn;
   }
   
-  function get_trial(){
+  function get_trial($participant_id, $current_cat){
    $conn = connect();
     
-   $sql = "SELECT `lex`.`id` AS lex_id, `trans`.`id` AS translation_id, 
-                  `lex`.`text` AS original_text, 
-                  `trans`.`text` AS translation, 
-                  `trans`.`tokenized_text` AS tokenized_translation,
-                  `trans`.`counting` AS counting 
-           FROM Lex AS `lex` 
-           INNER JOIN 
+   $sql = "SELECT `ent_lex_trans`.*, `cat`.`name`
+           FROM
            ( 
-             SELECT `trans`.*
-             FROM Translation AS `trans`
-             LEFT JOIN LinearPosEditing AS `linear` ON `trans`.`id` = `linear`.`translation_id`
-             WHERE ((`counting` = 1 OR `counting` = 0) AND (`linear`.`user_id` != {$_SESSION['participant_id']} OR `linear`.`user_id` IS NULL))
-             ORDER BY rand()
-             LIMIT 1
-           ) AS `trans`
-           ON `lex`.`id` = `trans`.`lex_id`;";
+             SELECT *
+             FROM Category
+             WHERE id = '$current_cat'
+           ) AS `cat`
+           INNER JOIN
+           (
+             SELECT `lex_trans`.*, `ent`.`category_id`
+             FROM Entry as `ent`
+             INNER JOIN
+             (
+               SELECT `lex`.`id` AS lex_id, `trans`.`id` AS translation_id, 
+                      `lex`.`text` AS original_text,
+                      `lex`.`entry_id` AS entry_id, 
+                      `trans`.`text` AS translation, 
+                      `trans`.`tokenized_text` AS tokenized_translation,
+                      `trans`.`counting` AS counting
+               FROM Lex AS `lex` 
+               INNER JOIN 
+               ( 
+                 SELECT `trans`.*
+                 FROM Translation AS `trans`
+                 LEFT JOIN LinearPosEditing AS `linear` 
+                 ON `trans`.`id` = `linear`.`translation_id`
+                 WHERE ((`counting` = 1 OR `counting` = 0) AND (`linear`.`user_id` != '$participant_id' OR `linear`.`user_id` IS NULL))
+                 ORDER BY rand()
+               ) AS `trans`
+               ON `lex`.`id` = `trans`.`lex_id`
+             ) AS `lex_trans`
+             ON `ent`.`id` = `lex_trans`.`entry_id`
+           ) AS `ent_lex_trans`
+           ON `cat`.`id` = `ent_lex_trans`.`category_id`";
 
     $result = $conn->query($sql) or die($conn->error);
     $row = $result->fetch_assoc();
@@ -63,13 +81,14 @@
   }
 
   session_start();
-  $row = get_trial();
+  $_SESSION["current_cat"] = max(1, ($_SESSION["current_cat"] + 1) % 14);
+  $row = get_trial($_SESSION["participant_id"], $_SESSION["current_cat"]);
   $row = array_map('utf8_encode', $row);
   $lex_id = $row['lex_id'];
-  $translation_id = $row['translation_id'];
   $original_text = $row['original_text'];
   $translation = $row['translation'];
   $tokenized_translation = $row['tokenized_translation'];
+  $cat = $row['name'];
   $participant_id = $_SESSION["participant_id"];
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -139,10 +158,13 @@
   }
 
   $finished_trials = get_finished_trials($participant_id);
+
+  $translation_id = $row['translation_id'];
+
   $result = [
     "translation_id" => $translation_id, "participant_id" => $participant_id,
     "original" => $original_text, "rewriting" => $translation, "translation" => $tokenized_translation, 
-    "finished_trials" => $finished_trials, "status" => $status, "pause" => $pause
+    "finished_trials" => $finished_trials, "status" => $statius, "pause" => $pause, "category" => $cat
   ];
 
   header('Content-type: application/json');

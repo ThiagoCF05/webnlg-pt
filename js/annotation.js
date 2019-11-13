@@ -28,6 +28,11 @@ function save_rewriting_history(data){
 }
 
 $(document).ready(function(){
+
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+  })
+
   var results;
   var totalSeconds_hidden = 0;
   var history = Array();
@@ -52,6 +57,8 @@ $(document).ready(function(){
         timer_hidden = setInterval(setTime_hidden, 1000);
         //blink
         blink_id = setInterval(blink_text, 800);
+        //button text
+        document.getElementById('pause').innerHTML = "Retomar";
       } else {
         //timer
        timer = setInterval(setTime, 1000);
@@ -60,6 +67,8 @@ $(document).ready(function(){
        timer_hidden = null;
        //blink
        clearInterval(blink_id);
+        //button text
+        document.getElementById('pause').innerHTML = "Pausar";
      }
     };
 
@@ -100,6 +109,9 @@ $(document).ready(function(){
       results.created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
       $("#original_text").empty();
       $("#original_text").append(results.original);
+
+      $("#cat").empty();
+      $("#cat").append(results.category);
 
       var user_text = $('#user').text().split(' / ')[0] + ' / Anotação ' + results.finished_trials.toString() ;
       $('#user').text(user_text);
@@ -169,6 +181,9 @@ $(document).ready(function(){
         results.created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
         $("#original_text").empty();
         $("#original_text").append(results.original);
+
+        $("#cat").empty();
+        $("#cat").append(results.category);
 
         var user_text = $('#user').text().split(' / ')[0] + ' / Anotação ' + results.finished_trials.toString() ;
         $('#user').text(user_text);

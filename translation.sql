@@ -157,6 +157,7 @@ CREATE TABLE `User` (
   `sex` varchar(45) NOT NULL,
   `english_proficiency_level` varchar(45) NOT NULL,
   `educational_level` varchar(45) NOT NULL,
+  `educational_field` varchar(100) NOT NULL,
   `ip_address` varchar(45) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

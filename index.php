@@ -24,7 +24,15 @@
 
 <body class="text-center">
 <form class="form-signin" action="login.php" method="post">
-  <img src="img/logo.png" alt="" width="80%" height="80%">
+  <h1>Sistema de Pós-Edição</h1>
+  <br>  
+  <p>
+    <strong>Bem-vindo!</strong> Obrigado por participar da nossa pesquisa!
+  </p>
+  <p>
+    Nosso projeto visa produzir uma versãoo em português brasileiro do corpus <a href="http://webnlg.loria.fr/pages/docs.html">WebNLG</a> utilizando a pós-edição da tradução automática.
+  </p>
+  <br>
 <!--  <input type="text" id="inputQuestion" class="form-control" placeholder="Welke vraag heb je altijd al willen stellen?" required="" autofocus="">-->
   <div class="form-group">
     <div>
@@ -38,9 +46,17 @@
   </div>
   <span id="helpBlock" class="help-block"><a href="signup.php">Cadastre-se</a></span>
   <br>
-  <p class="text-center">
-    <p> Universidade Federal de Minas Gerais - 2019</p>
-  </p>
+  <div id="footer" style="">
+    <img src="img/speed.gif" alt="" width="15%" height="15%" style="margin-right:30px;">
+    <img src="img/letra.jpg" alt="" width="20%" height="20%">
+    <img src="img/logo.png" alt="" width="30%" height="30%">
+    <p><br>
+      Universidade Federal de Minas Gerais - 2019
+    </p>
+    <p>
+      <a href="mailto:felipealco@ufmg.br">Contato</a>
+    </p>
+  </div>
 </form>
 </body>
 </html>

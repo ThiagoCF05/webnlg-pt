@@ -142,49 +142,37 @@
       <img src="img/logo.png">
     </div>
   </div>
-  <div class="text-center">
-    <p class="lead">
-      <strong>Bem-vindo!</strong> Obrigado por participar da nossa pesquisa!
-    </p>
-  </div>
   <div class="text-justify">
     <section>
       <p class="lead">
-        Nosso projeto visa produzir uma versão em português brasileiro do corpus <a href="http://webnlg.loria.fr/pages/docs.html">WebNLG</a> utilizando a pós-edição da tradução automática.
-      </p>
-    </section>
-    <section>
-      <p class="lead">
-        Após feito seu cadastro, você terá acesso a uma página na qual você verá um pequeno texto em inglês e sua tradução para o português.
+        Após feito seu cadastro no fim desta página, você terá acesso a uma tela na qual você verá um pequeno texto em inglês e sua tradução para o português.
       </p>
       <p class="lead">
-        Você deve indicar se a tradução está adequada ao texto em inglês. Caso não estiver, você pode (1) modificar (pós-editar) o texto em português, clicando na(s) palavra(s) que deseja alterar e escolhendo uma das opções, ou (2) refazer a tradução na caixa abaixo, se você achar que precisa de alterações substanciais.
+        Você deve verificar se a tradução está adequada ao texto em inglês. Caso não estiver, você deve modificar (pós-editar) o texto em português utilizando um dos dois modos de pós-edição. No modo Livre você pode editar a tradução como num editor de texto comum. Já no modo Guiado, você deve clicar nas palavras que desejar mudar e escolher umas das operações.
       </p>
-    <section id="importante">
-      <h3>Importante</h3>
-      <p class="lead"><strong>Tempo:</strong> O sistema registra o tempo de cada edição. Por isso, quando você precisar interromper a atividade, aperte o botão de pausa. Isso é importante para nossa pesquisa!</p>
-      <p class="lead"><strong>Português europeu:</strong> Algumas sentenças estarão escritas em português europeu. Na hora de pós-editar, utilize o português brasileiro.</p>
-      <p class="lead"><strong>Tradução de nomes próprios:</strong> A tradução de nomes fica ao seu critério, mas se já houver uma tradução conhecida para o nome, você deve utilizá-la. Ex: New York - Nova Iorque. Se você quiser, pode pausar o sistema e dar uma procurada no internet. Se ainda tiver dúvida, use a opção "Pular".</p>
     </section>
     <section id="Proceedings">
-      <h3>Teste aqui os dois modos de edição</h3>
-      <p style="font-size:13px;">*O modo pós-edição não está disponível em dispositivos móveis.</p>
+      <h3>Teste aqui os dois modos de pós-edição</h3>
+      <p style="font-size:13px;">*O modo Guiado não está disponível em dispositivos móveis.</p>
+      <p style="font-size:13px;">*Este é apenas um exemplo para teste. O sistema real está disponível após o cadastro.</p>
       <div class="jumbotron lead">
       <div class="text-center">
             <form>
       <div class="form-mode-select" style="margin-top:10px">
-        <label><h5 class="text-center">Modo de Edição</h5></label>
+        <label><h5 class="text-center">Modo de Pós-Edição</h5></label>
         <!--            <span class="form-text text-muted">Does the text flow in a natural, easy to read manner?</span>-->
         <div class="radio" style="margin-bottom:1rem">
           <label class="radio-inline" style="margin-left:0.5cm">
-            <input type="radio" name="fluency" id="rewriting" value="2" checked> Reescrever
+            <input type="radio" name="fluency" id="rewriting" value="2" checked> Livre
           </label>
           <label class="radio-inline" style="margin-left:0.5cm" for="pos-ed">
-            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Pós-Edição
+            <input type="radio" name="fluency" id="pos-edition" value="1" for="pos-ed"> Guiado
           </label>
         </div>
       </div>
     </form>
+    <label><h5 class="text-center">Tópico</h5></label>
+    <p id="cat">Personagem de quadrinhos</p>
   </div>
   <div class="text-justify" id="article">
     <h5 class="text-center">Texto Original</h5>
@@ -206,12 +194,19 @@
     </form>
   </div>
   </div>
-
     </section>
+<section id="importante">
+      <h3>Importante</h3>
+      <p class="lead"><strong>Consultas:</strong> Você pode consultar dicionários online, páginas da Internet e outros enquanto estiver pós-editando. Não precisa pausar. </p>
+      <p class="lead"><strong>Duração:</strong> Se precisar interromper sua pós-edição e retomar mais tarde, é só clicar em PAUSAR.</p>
+      <p class="lead"><strong>Português europeu:</strong> Algumas sentenças estarão escritas em português europeu. Na hora de pós-editar, utilize o português brasileiro.</p>
+      <p class="lead"><strong>Tradução de nomes próprios:</strong> A tradução de nomes fica ao seu critério, mas se já houver uma tradução conhecida para o nome, você deve utilizá-la. Ex: New York - Nova Iorque. Se ainda tiver dúvida, use a opção "Pular".</p>
+    </section>
+    
     <section id="payment">
       <h3>Como posso solicitar uma declaração de participação?</h3>
       <p class="lead">
-        Se você deseja receber um certificado de participação no projeto, pode solicitá-lo ao e-mail apagano@ufmg.br indicando seu nome cadastrado. Alunos de graduação e pós-graduação interessados em uma declaração para fins de créditos junto aos seus respectivos Colegiados de Curso devem indicar que desejam uma declaração de número de horas/créditos por participação em projeto de pesquisa.  
+        Se você deseja receber um certificado de participação no projeto, pode solicitá-lo ao e-mail <a href="apagano@ufmg.br">apagano@ufmg.br</a> indicando seu nome cadastrado. Alunos de graduação e pós-graduação interessados em uma declaração para fins de créditos junto aos seus respectivos Colegiados de Curso devem indicar que desejam uma declaração de número de horas/créditos por participação em projeto de pesquisa.  
       </p>
       <p class="lead">
        O número de sentenças pós-editadas por cada usuário é registrado pelo sistema. Atenção: quando você "pula" uma sentença ela não entra na sua contagem de traduções.
@@ -252,6 +247,7 @@
               <select class="form-control" name="sex">
                 <option value="M">Masculino</option>
                 <option value="F">Feminino</option>
+                <option value="F">Não desejo informar</option>
               </select>
             </div>
           </div>
@@ -292,6 +288,14 @@
                 <option value="doctorate_ongoing">Doutorado em andamento</option>
                 <option value="doctorate">Doutorado</option>
               </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="educational_field" class="col-md-3 control-label">Áreas de Formação</label>
+            <div class="col-md-6">
+              <input type="text" class="form-control" id="educational_field" name="educational_field" placeholder="Áreas de Formação" required
+                     maxlength="45" minlength="3">
+              <!--<span id="helpBlock" class="help-block">The text should go here.</span>-->
             </div>
           </div>
           <button type="submit" class="btn btn-primary">Eu concordo</button>

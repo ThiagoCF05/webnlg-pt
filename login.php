@@ -29,7 +29,7 @@
             $_SESSION["isSigned"] = true;
             $_SESSION["participant_id"] = $participant_id;
             $_SESSION["email"] = $email;
-            $_SESSION["current"] = 0;
+            $_SESSION["current_cat"] = 2;
             header("Location: annotation.php");
             die();
         } else {

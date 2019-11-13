@@ -98,7 +98,7 @@ $(document).ready(function(){
       $(dropbtn).append(text);
 
       // update label in delete button
-      btn_delete.textContent = "Delete";
+      btn_delete.textContent = "Excluir";
 
       pos_editings[index].action = "undeleted";
     } else {
@@ -108,7 +108,7 @@ $(document).ready(function(){
       $(dropbtn).append(d);
 
       // update label in delete button
-      btn_delete.textContent = "Cancel Delete";
+      btn_delete.textContent = "Desfazer excluir";
 
       pos_editings[index].action = "deleted";
     }
