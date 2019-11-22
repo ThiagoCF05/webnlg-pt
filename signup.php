@@ -197,6 +197,7 @@
     </section>
 <section id="importante">
       <h3>Importante</h3>
+      <p class="lead"><strong>Erro no sistema:</strong> O sistema pode ser um pouco lento em alguns momentos. Se durante o processo de edição o sistema deixar de funcionar, tente recarregar a página. Se mesmo assim o erro persistir entre em contato usando o link na página inicial.</p> 
       <p class="lead"><strong>Consultas:</strong> Você pode consultar dicionários online, páginas da Internet e outros enquanto estiver pós-editando. Não precisa pausar. </p>
       <p class="lead"><strong>Duração:</strong> Se precisar interromper sua pós-edição e retomar mais tarde, é só clicar em PAUSAR.</p>
       <p class="lead"><strong>Português europeu:</strong> Algumas sentenças estarão escritas em português europeu. Na hora de pós-editar, utilize o português brasileiro.</p>

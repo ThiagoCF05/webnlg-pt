@@ -30,7 +30,7 @@
     <strong>Bem-vindo!</strong> Obrigado por participar da nossa pesquisa!
   </p>
   <p>
-    Nosso projeto visa produzir uma versãoo em português brasileiro do corpus <a href="http://webnlg.loria.fr/pages/docs.html">WebNLG</a> utilizando a pós-edição da tradução automática.
+    Nosso projeto visa produzir uma versão em português brasileiro do corpus <a href="http://webnlg.loria.fr/pages/docs.html">WebNLG</a> utilizando a pós-edição da tradução automática.
   </p>
   <br>
 <!--  <input type="text" id="inputQuestion" class="form-control" placeholder="Welke vraag heb je altijd al willen stellen?" required="" autofocus="">-->

@@ -14,7 +14,7 @@
     return $conn;
   }
   
-  function get_trial($participant_id, $current_cat){
+  function get_trial($participant_id, $prev_cat){
    $conn = connect();
     
    $sql = "SELECT `ent_lex_trans`.*, `cat`.`name`
@@ -22,7 +22,7 @@
            ( 
              SELECT *
              FROM Category
-             WHERE id = '$current_cat'
+             WHERE name != '$prev_cat'
            ) AS `cat`
            INNER JOIN
            (
@@ -81,8 +81,7 @@
   }
 
   session_start();
-  $_SESSION["current_cat"] = max(1, ($_SESSION["current_cat"] + 1) % 14);
-  $row = get_trial($_SESSION["participant_id"], $_SESSION["current_cat"]);
+  $row = get_trial($_SESSION["participant_id"], $_SESSION["category"]);
   $row = array_map('utf8_encode', $row);
   $lex_id = $row['lex_id'];
   $original_text = $row['original_text'];
