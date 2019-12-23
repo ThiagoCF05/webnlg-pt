@@ -146,6 +146,8 @@ $(document).ready(function(){
       
       $("#buttons").css("display", "inline-block");
       $("#loading").css("display", "none");
+
+      results.updated_at = null; //new Date().toISOString().slice(0, 19).replace('T', ' ');
     },
     dataType: "json"
   });
@@ -164,6 +166,7 @@ $(document).ready(function(){
   
   $("#submit").click(function (e){
     results.pause = totalSeconds_hidden;
+    results.updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
     e.preventDefault();
 
     $("#buttons").css("display", "none");
@@ -178,7 +181,8 @@ $(document).ready(function(){
       },
       success: function (data){
         results = data;
-        results.created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        //results.created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
         $("#original_text").empty();
         $("#original_text").append(results.original);
 
@@ -220,8 +224,10 @@ $(document).ready(function(){
         if (timer) {
           totalSeconds = 0;
           totalSeconds_hidden = 0;
-          stop()
+          stop();
         }
+
+	results.updated_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
       },
       dataType: "json"
     });

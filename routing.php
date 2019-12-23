@@ -79,7 +79,19 @@
     $conn->close();
     return $trials;
   }
+  
+  function get_timestamp(){
+  	$conn = connect();
+  	
+  	$sql = "SELECT CURRENT_TIMESTAMP() as `created_at`;";
+  	
+    $result = $conn->query($sql) or die($conn->error);
+    $row = $result->fetch_assoc();
 
+    $conn->close();
+    return $row['created_at'];
+	}
+	
   session_start();
   $row = get_trial($_SESSION["participant_id"], $_SESSION["category"]);
   $row = array_map('utf8_encode', $row);
@@ -99,6 +111,7 @@
     $status = mysqli_real_escape_string($conn, $_POST["status"]);
     $pause = mysqli_real_escape_string($conn, $_POST["pause"]);
     $created_at = mysqli_real_escape_string($conn, $_POST["created_at"]);
+    $updated_at = mysqli_real_escape_string($conn, $_POST["updated_at"]);
     
     //Adding it to LinearPosEditing
     if ($status == "dontknow" or $status == "noneed") {
@@ -119,13 +132,13 @@
         $word = mysqli_real_escape_string($conn, $pos_editing['word']);
         $action = mysqli_real_escape_string($conn, $pos_editing['action']);
         $updated_word = mysqli_real_escape_string($conn, $pos_editing['updated_word']);
-        $updated_at = mysqli_real_escape_string($conn, $pos_editing['updated_at']);
+        $updated_at_posed = mysqli_real_escape_string($conn, $pos_editing['updated_at']);
         // just save history whether pos edited is set
         if ((int)$isPosedited != 0){
-          if (strcmp($updated_at,"") == 0){
+          if (strcmp($updated_at_posed,"") == 0){
             $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', NULL); ";
           } else {
-            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', '$updated_at'); ";
+            $sql = "INSERT INTO PosEditing (`translation_id`, `user_id`, `word_idx`, `word`, `action`, `updated_word`, `created_at`, `updated_at`) VALUES ('$translation_id', '$participant_id', '$word_idx', '$word', '$action', '$updated_word', '$created_at', '$updated_at_posed'); ";
           }
               
           $word_idx = $word_idx + 1;
@@ -150,14 +163,14 @@
       $result = $conn->query($sql) or die($conn->error);
     }
 
-    $sql = "INSERT INTO LinearPosEditing (`translation_id`, `user_id`, `text`, `status`, `pause`, `created_at`) 
-            VALUES ('$translation_id', '$participant_id', '$text', '$status', '$pause', '$created_at');";
+    $sql = "INSERT INTO LinearPosEditing (`translation_id`, `user_id`, `text`, `status`, `pause`, `created_at`, `updated_at`) 
+            VALUES ('$translation_id', '$participant_id', '$text', '$status', '$pause', '$created_at', '$updated_at');";
     $result = $conn->query($sql) or die($conn->error);
     $conn->close();
   }
 
   $finished_trials = get_finished_trials($participant_id);
-
+  
   $translation_id = $row['translation_id'];
 
   $result = [
