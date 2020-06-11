@@ -7,7 +7,7 @@
 # change source and target prefix, optionally the number of BPE operations,
 
 script_dir=`dirname $0`
-main_dir=$script_dir/..
+main_dir=$script_dir/../
 data_dir=$main_dir/data
 model_dir=$main_dir/model
 
@@ -16,21 +16,21 @@ model_dir=$main_dir/model
 
 # number of merge operations. Network vocabulary should be slightly larger (to include characters),
 # or smaller if the operations are learned on the joint vocabulary
-bpe_operations=40000
+bpe_operations=20000
 
 #minimum number of times we need to have seen a character sequence in the training text before we merge it into one unit
 #this is applied to each training text independently, even with joint BPE
-bpe_threshold=50
+bpe_threshold=30
 
 # tokenize
 for prefix in corpus dev
  do
    cat $data_dir/$prefix.$src | \
-   $moses_scripts/tokenizer/normalize-punctuation.perl -l $src | \
+   $moses_scripts/tokenizer/normalize-punctuation.perl -l en | \
    $moses_scripts/tokenizer/tokenizer.perl -a -l $src > $data_dir/$prefix.tok.$src
 
    cat $data_dir/$prefix.$trg | \
-   $moses_scripts/tokenizer/normalize-punctuation.perl -l $trg | \
+   $moses_scripts/tokenizer/normalize-punctuation.perl -l en | \
    $moses_scripts/tokenizer/tokenizer.perl -a -l $trg > $data_dir/$prefix.tok.$trg
 
  done

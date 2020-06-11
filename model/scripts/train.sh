@@ -11,7 +11,7 @@ working_dir=$main_dir/model
 
 # TensorFlow devices; change this to control the GPUs used by Nematus.
 # It should be a list of GPU identifiers. For example, '1' or '0,1,3'
-devices=0,1,2,3
+devices=0
 
 # Training command that closely follows the 'base' configuration from the
 # paper
@@ -28,12 +28,12 @@ CUDA_VISIBLE_DEVICES=$devices python3 $nematus_home/nematus/train.py \
     --target_dataset $data_dir/corpus.bpe.$trg \
     --dictionaries $data_dir/corpus.bpe.both.json \
                    $data_dir/corpus.bpe.both.json \
-    --save_freq 30000 \
+    --save_freq 10000 \
     --model $working_dir/model \
     --reload latest_checkpoint \
     --model_type transformer \
-    --embedding_size 512 \
-    --state_size 512 \
+    --embedding_size 256 \
+    --state_size 256 \
     --tie_encoder_decoder_embeddings \
     --tie_decoder_embeddings \
     --loss_function per-token-cross-entropy \
@@ -42,21 +42,22 @@ CUDA_VISIBLE_DEVICES=$devices python3 $nematus_home/nematus/train.py \
     --optimizer adam \
     --adam_beta1 0.9 \
     --adam_beta2 0.98 \
-    --adam_epsilon 1e-09 \
+    --adam_epsilon 10e-09 \
     --learning_schedule transformer \
     --warmup_steps 4000 \
     --maxlen 100 \
-    --batch_size 256 \
-    --token_batch_size 16384 \
-    --valid_source_dataset $data_dir/newstest2013.bpe.$src \
-    --valid_target_dataset $data_dir/newstest2013.bpe.$trg \
-    --valid_batch_size 120 \
-    --valid_token_batch_size 4096 \
-    --valid_freq 10000 \
+    --batch_size 64 \
+    --token_batch_size 256 \
+    --valid_source_dataset $data_dir/dev.bpe.$src \
+    --valid_target_dataset $data_dir/dev.bpe.$trg \
+    --valid_batch_size 64 \
+    --valid_token_batch_size 256 \
+    --valid_freq 1000 \
     --valid_script $script_dir/validate.sh \
-    --disp_freq 1000 \
+    --disp_freq 2000 \
     --sample_freq 0 \
     --beam_freq 0 \
     --beam_size 4 \
+    --patience 10 \
     --translation_maxlen 100 \
     --normalization_alpha 0.6

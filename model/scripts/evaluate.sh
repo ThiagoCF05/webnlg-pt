@@ -19,7 +19,7 @@ working_dir=$main_dir/model
 # assigning more than one.
 devices=0
 
-test_prefix=newstest2017
+test_prefix=dev
 test=$test_prefix.bpe.$src
 ref=$test_prefix.$trg
 model=$working_dir/model.best-valid-script
@@ -29,9 +29,8 @@ CUDA_VISIBLE_DEVICES=$devices python3 $nematus_home/nematus/translate.py \
      -m $model \
      -i $data_dir/$test \
      -o $working_dir/$test.output.dev \
-     -k 12 \
-     -n 0.6 \
-     -b 10
+     -k 5 \
+     -n
 
 # postprocess
 $script_dir/postprocess.sh < $working_dir/$test.output.dev > $working_dir/$test.output.postprocessed.dev

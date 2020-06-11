@@ -13,4 +13,4 @@ main_dir=$script_dir/../
 
 sed -r 's/\@\@ //g' |
 $moses_scripts/recaser/detruecase.perl |
-$moses_scripts/tokenizer/detokenizer.perl -l $trg
+$moses_scripts/tokenizer/detokenizer.perl -l en
