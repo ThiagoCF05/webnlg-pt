@@ -14,43 +14,57 @@
     return $conn;
   }
   
-  function get_trial($participant_id, $prev_cat){
+  function get_trial(){
    $conn = connect();
     
-   $sql = "SELECT `ent_lex_trans`.*, `cat`.`name`
-           FROM
-           ( 
-             SELECT *
-             FROM Category
-             WHERE name != '$prev_cat'
-           ) AS `cat`
-           INNER JOIN
-           (
-             SELECT `lex_trans`.*, `ent`.`category_id`
-             FROM Entry as `ent`
-             INNER JOIN
-             (
-               SELECT `lex`.`id` AS lex_id, `trans`.`id` AS translation_id, 
-                      `lex`.`text` AS original_text,
-                      `lex`.`entry_id` AS entry_id, 
-                      `trans`.`text` AS translation, 
-                      `trans`.`tokenized_text` AS tokenized_translation,
-                      `trans`.`counting` AS counting
-               FROM Lex AS `lex` 
-               INNER JOIN 
-               ( 
-                 SELECT `trans`.*
-                 FROM Translation AS `trans`
-                 LEFT JOIN LinearPosEditing AS `linear` 
-                 ON `trans`.`id` = `linear`.`translation_id`
-                 WHERE ((`counting` = 1 OR `counting` = 0) AND (`linear`.`user_id` != '$participant_id' OR `linear`.`user_id` IS NULL))
-                 ORDER BY rand()
-               ) AS `trans`
-               ON `lex`.`id` = `trans`.`lex_id`
-             ) AS `lex_trans`
-             ON `ent`.`id` = `lex_trans`.`entry_id`
-           ) AS `ent_lex_trans`
-           ON `cat`.`id` = `ent_lex_trans`.`category_id`";
+   $sql = "SELECT Category.nome AS nome
+                , Translation.id AS translation_id
+                , Lex.text AS original_text
+                , Lex.entry_id AS entry_id
+                , Translation.text AS translation
+                , Translation.tokenized_text AS tokenized_translation
+            FROM Translation
+            INNER JOIN Lex
+            ON Lex.id = Translation.lex_id
+            INNER JOIN Entry
+            ON Entry.id = Lex.entry_id
+            INNER JOIN Category
+            ON Category.id = Entry.category_id
+            WHERE Translation.id >= 4148
+            AND Translation.counting = 0
+            ORDER BY RAND();";
+
+    $result = $conn->query($sql) or die($conn->error);
+    $row = $result->fetch_assoc();
+
+    $conn->close();
+    return $row;
+  }  
+  
+  function get_trial_test(){
+   $conn = connect();
+    
+   $sql = "SELECT `cat`.`nome`
+             , `lex`.`id` AS lex_id
+             , `trans`.`id` AS translation_id
+             , `lex`.`text` AS original_text
+             , `lex`.`entry_id` AS entry_id
+             , `trans`.`text` AS translation
+             , `trans`.`tokenized_text` AS tokenized_translation
+             , `trans`.`counting` AS counting
+           FROM LinearPosEditing
+           INNER JOIN Translation as `trans`
+             ON LinearPosEditing.translation_id = `trans`.id
+           INNER JOIN Lex as `lex`
+             ON `trans`.lex_id = `lex`.id
+           INNER JOIN Entry
+             ON `lex`.entry_id = Entry.id
+           INNER JOIN Category as cat
+             ON Entry.category_id = cat.id
+           WHERE status != 'dontknow' 
+           AND translation_id <= 4148 
+           GROUP BY translation_id 
+           HAVING COUNT(DISTINCT user_id) = 1;";
 
     $result = $conn->query($sql) or die($conn->error);
     $row = $result->fetch_assoc();
@@ -93,13 +107,13 @@
 	}
 	
   session_start();
-  $row = get_trial($_SESSION["participant_id"], $_SESSION["category"]);
+  $row = get_trial();
   $row = array_map('utf8_encode', $row);
   $lex_id = $row['lex_id'];
   $original_text = $row['original_text'];
   $translation = $row['translation'];
   $tokenized_translation = $row['tokenized_translation'];
-  $cat = $row['name'];
+  $cat = $row['nome'];
   $participant_id = $_SESSION["participant_id"];
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -114,13 +128,15 @@
     $updated_at = mysqli_real_escape_string($conn, $_POST["updated_at"]);
     
     //Adding it to LinearPosEditing
-    if ($status == "dontknow" or $status == "noneed") {
+    if ($status == "dontknow") 
       $text = mysqli_real_escape_string($conn, htmlspecialchars(stripslashes(trim($_POST["original"]))));
-    }
     
-    if ($status == "rewritten") {
+    if ($status == "rewritten") 
       $text = mysqli_real_escape_string($conn, htmlspecialchars(stripslashes(trim($_POST["rewriting"]))));
-    }
+    
+    if ($status == "noneed")
+      $text = mysqli_real_escape_string($conn, htmlspecialchars(stripslashes(trim($_POST["translation"]))));
+      
     
     if($status == "posEdited") {
       $isPosedited = 1;

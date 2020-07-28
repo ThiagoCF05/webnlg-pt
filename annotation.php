@@ -42,7 +42,8 @@
     </div>
     <div id="right">
       <form class="form-inline" action="logout.php" method="get" style="float: right;">
-        <button type="button" class="btn btn-danger" id="pause">Pausar</button>
+        <?php if($_SESSION['participant_id'] <= 2 || $_SESSION['participant_id'] == 19 || $_SESSION['participant_id'] >= 43 || $_SESSION['participant_id'] == 8 ) echo "<a href=\"evaluation.php\" class=\"btn btn-primary active\" role=\"button\" aria-pressed=\"true\">Avaliação</a>"; ?>
+        <button type="button" class="btn btn-danger" id="pause" style="margin-left:5px;">Pausar</button>
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit" style="margin-left:5px;">Sair</button>
       </form>
     </div>
@@ -96,7 +97,7 @@
     <form>
       <div class="form-group" id="buttons">
         <button id="dontknow" class="btn btn-secondary">Pular</button>
-        <!--<button id="noneed" class="btn btn-secondary">Não precisa de correção</button>-->
+        <button id="noneed" class="btn btn-secondary">Não precisa de correção</button>
         <button id="submit" class="btn btn-primary">Confirmar tradução</button>
         <div id="loading" class="spinner-border" role="status">
           <span class="sr-only">Loading...</span>

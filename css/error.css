@@ -1,0 +1,6 @@
+.sticky-top {
+  -webkit-box-shadow: 0 10px 5px #888888;
+  -moz-box-shadow: 0 10px 5px #888888;
+  box-shadow: 0 10px 5px #888888;
+  background-color: white;
+}

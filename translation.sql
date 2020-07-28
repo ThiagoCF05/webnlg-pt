@@ -162,6 +162,21 @@ CREATE TABLE `User` (
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Evaluation`
+--
+
+CREATE TABLE `Evaluation` (
+  `user_id` int(11) NOT NULL,
+  `source_table` varchar(45) NOT NULL,
+  `table_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`user_id`, `source_table`, `table_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 --
@@ -229,6 +244,12 @@ ALTER TABLE `TranslationEngine`
 --
 ALTER TABLE `User`
   ADD PRIMARY KEY (`id`);
+  
+--
+-- Indexes for table `Evaluation`
+--
+ALTER TABLE `Evaluation`
+  ADD KEY `user_id` (`user_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -287,7 +308,7 @@ ALTER TABLE `TranslationEngine`
 --
 ALTER TABLE `User`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
+  
 --
 -- Constraints for dumped tables
 --
@@ -331,6 +352,14 @@ ALTER TABLE `RewritingHistory`
 ALTER TABLE `Translation`
   ADD CONSTRAINT `translation_engine_key` FOREIGN KEY (`engine_id`) REFERENCES `TranslationEngine` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `translation_lex_key` FOREIGN KEY (`lex_id`) REFERENCES `Lex` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+--
+-- Constraints for table `Evaluation`
+--
+ALTER TABLE `Evaluation`
+  ADD CONSTRAINT `evaluation_user` FOREIGN KEY (`user_id`) REFERENCES `User` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  
+  
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

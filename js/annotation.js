@@ -181,7 +181,7 @@ $(document).ready(function(){
       },
       success: function (data){
         results = data;
-        //results.created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
+        results.created_at = new Date().toISOString().slice(0, 19).replace('T', ' ');
 
         $("#original_text").empty();
         $("#original_text").append(results.original);
